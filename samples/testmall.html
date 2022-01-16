@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+  <link rel="stylesheet" href="../css/tg.css" />
+  <link rel="stylesheet" href="../css/zigzag.css" />
+</head>
+<body>
+
+
+<div class="head">
+  <h1 class="large-font"><b>Testggoon</b></h1>
+  <p style="color:MediumSeaGreen;">Test data and test code generator for api server</p>
+</div>
+
+<div class="wrapper">
+
+<div class="sidebar" id="sidebar">
+ <ul>
+  <li><a href="../en/index.html">English</a></li>
+  <li><a href="../kr/index.html">Korean</a></li>
+
+  <li><span class="caret">Samples</span>
+    <ul class="nested">
+      <li><span class="caret">classicmodels</span>
+        <ul class="nested">
+          <li><a href="./classicmodels.html#schema">classicmodels.json</a></li>
+          <li><a href="./classicmodels.html#schema-ex">schema-ex.json</a></li>
+          <li><a href="./classicmodels.html#api">api.json</a></li>
+	    </ul>
+	  </li>
+      <li><span class="caret">testggoon</span>
+        <ul class="nested">
+          <li><a href="./testggoon.html#schema">testggoon.json</a></li>
+          <li><a href="./testggoon.html#schema-ex">schema-ex.json</a></li>
+          <li><a href="./testggoon.html#api">api.json</a></li>
+	    </ul>
+	  </li>
+      <li><span class="caret">testmall</span>
+        <ul class="nested">
+          <li><a href="./testmall.html#schema">testmall.json</a></li>
+          <li><a href="./testmall.html#schema-ex">schema-ex.json</a></li>
+          <li><a href="./testmall.html#api">api.json</a></li>
+	    </ul>
+	  </li>
+	</ul>
+  </li>
+
+ </ul>
+</div>
+
+<div class="content">
+
+<div id="schema" class="container">
+  <div class="row">
+	<h2>schema for testmall</h2>
+	  <pre><code class="json">{
+  "name": "testmall",
+  "tab": 4,
+
+  "includeSchemas": [
+    "./customer.json",
+    "product.json",
+    "product_attributes.json",
+    "product_options.json",
+    "order.json",
+    "taxonomy.json",
+    "api.json"
+  ],
+
+  "elements": [
+    {
+      "table": "userconnection",
+      "properties": [
+        { "column": "userId", "datatype": "string(255)" },
+        { "column": "providerId", "datatype": "string(255)" },
+        { "column": "providerUserId", "datatype": "string(255)" },
+        { "column": "rank", "datatype": "int" },
+        { "column": "displayName", "datatype": "string(255)", "required": false },
+        { "column": "profileUrl", "datatype": "text", "required": false },
+        { "column": "imageUrl", "datatype": "text", "required": false },
+        { "column": "accessToken", "datatype": "string(255)" },
+        { "column": "secret", "datatype": "string(255)", "required": false },
+        { "column": "refreshToken", "datatype": "string(255)", "required": false },
+        { "column": "expireTime", "datatype": "int", "required": false }
+      ],
+      "uniqueKeys": [
+        "userId, providerId, rank"
+      ],
+      "primaryKey": {
+        "columns": "userId, providerId, providerUserId",
+        "from": "user"
+      }
+    }
+  ]
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="customers" class="container">
+  <div class="row">
+	<h2>schema for customers</h2>
+	  <pre><code class="json">{
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="products" class="container">
+  <div class="row">
+	<h2>schema for products</h2>
+	  <pre><code class="json">{
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="product_attributes" class="container">
+  <div class="row">
+	<h2>schema for product_attributes</h2>
+	  <pre><code class="json">{
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="product_options" class="container">
+  <div class="row">
+	<h2>schema for product_options</h2>
+	  <pre><code class="json">{
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="orders" class="container">
+  <div class="row">
+	<h2>schema for orders</h2>
+	  <pre><code class="json">{
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="taxonomy" class="container">
+  <div class="row">
+	<h2>schema for taxonomy</h2>
+	  <pre><code class="json">{
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="api" class="container">
+  <div class="row">
+	<h2>api</h2>
+	  <pre><code class="json">{
+    "api": {
+      "host": "http://localhost:8080",
+        "orderBy": {
+          "key": "order-by",
+          "value": "&lt;c&gt; &lt;order&gt;",
+          "order": { 
+            "asc": "asc", 
+            "desc": "desc" 
+          }
+        },
+        "paginate": {
+          "keyToPageNo": "page-no",
+          "keyToNumRows": "num-rows",
+          "numRows": 10
+        },
+        "columnNameCases": {
+          "column": "original",
+          "orderBy": "original",
+          "keyColumn": "camelcase"
+        }
+    },
+    "subTables": [
+      {
+        "name": "products_with_attrs_and_options",
+        "table": "products",
+        "columns": {
+          ":columns": "*",
+          "product_attributes": "$ref:product_attributes",
+          "product_options": "$ref:product_options"
+        }
+      }
+    ],
+    "subTablesForQuery": [
+      {
+        "name": "responseFromProductList",
+        "table": "products",
+        "columns": 
+          "id, name, price, options(count=product_options), totalPrice(sum=product_options.price)"
+      }
+    ],
+    "elements": [
+        {
+          "table": "products",
+          "queryApis": [
+            {
+              "request": {
+                "url": "/products/query",
+                "method": "get",
+                "params": [
+                  { "name": "name", "type": "string", "in": "query", "op": "like" }
+                ]
+              },
+              "response": {
+                "body": "products(type=array, case=camelcase)"
+              }
+            },
+            {
+              "request": {
+                "url": "/products/list",
+                "paginate": true,
+                "accessRoles": "ROLE_CUSTOMER",
+                "params": [
+                  { "name": "name", "type": "string", "in": "query", "op": "like" },
+                  { "name": "store_id", "type": "integer", "in": "query", "op": "=" }
+                ]
+              },
+              "response": {
+                "orderableColumns": "price",
+                "body": "responseFromProductList"
+              }
+            }
+          ],
+          "mutableApis": [
+            {
+              "request": {
+                "url": "/products/save", "method": "post",
+                "numOfTests": 1,
+                "body": "products_with_attrs_and_options"
+              },
+              "response": {
+                "body": "products"
+              },
+              "expects": [
+                {
+                  "action": "save",
+                  "$ref": "products_with_attrs_and_options",
+                  "comments": [
+                    "queryRequests specifies the table name as key and the url as value."
+                  ],
+                  "queryRequests": {
+                    "products": "/products/find/${.id}",
+                    "product_attributes": "/product_attributes/query?product_id=${.id}",
+                    "product_options": {
+                      "url": "/product_options/query",
+                      "params": [
+                        { "name": "product_id", "in": "query", "value": "${.id}",
+                          "comment": "'${.id}' in value means testdata.id, that is, products.id."
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+            "table": "order_products",
+            "mutableApis": [
+              {
+                "request": {
+                  "url": "/order_products/save", "method": "post",
+                  "comment": "If body is a specific table, you can use table-name directly.",
+                  "body": "order_products"
+                },
+                "response": {                  
+                  "body": "order_products"
+                },
+                "expects": [
+                  {
+                    "action": "save",
+                    "comment": "If only one table is affected, the table-name can be used directly.",
+                    "$ref": "order_products",
+                    "queryRequests": {
+                      "order_products": "/order_products/find/${.id}"
+                    }
+                  }
+                ]
+              },
+              {
+                "request": {
+                  "testdataUrl": "/order_products/save",
+                  "url": "/order_products/paymented/:id", 
+                  "params": [
+                    { "name": "id", "in": "path", "value": "${.id}"}
+                  ],
+                  "method": "post",
+                  "comment": "If body is a specific name-value pair, it can be used directly.",
+                  "body": {
+                    "amount": "number"
+                  }
+                },
+                "comment2": [
+                  "This way, the response has a key named 'result' and ",
+                  "if the value of the key is 'ok' it means success and",
+                  "if it's 'fail' it means failure."
+                ],
+                "response": {
+                  "body": "resultPath: result, 'ok', 'fail'"
+                },
+                "expects": [
+                  {
+                    "action": "create",
+                    "$ref": "payments",
+                    "columns": {
+                      "amount": "${request.body.amount}"
+                    },
+                    "queryRequests": {
+                      "payments": "/payments/query?order_product_id=${.id}"
+                    }
+                  },
+                  {
+                    "action": "update",
+                    "$ref": "order_products",
+                    "columns": {
+                      "state": "'paymented'"
+                    },
+                    "queryRequests": {
+                      "order_products": "/order_products/find/${.id}"
+                    }
+                  }
+                ]
+              },
+              {
+                "request": {
+                  "testdataUrl": "/order_products/save",
+                  "url": "/order_products/start_delivery/${.id}", 
+                  "method": "post",
+                  "body": {
+                    "carrier": ".(value=${.carrier})",
+                    "tracking_number": ".(value=${.tracking_number})"
+                  }
+                },
+                "response": {
+                  "body": "resultPath: result, 'ok', 'fail'"
+                },
+                "expects": [
+                  {
+                    "action": "update",
+                    "$ref": "order_products",
+                    "columns": {
+                      "state": "'delibery'",
+                      "carrier": "${request.body.carrier}",
+                      "tracking_number": "${request.body.tracking_number}"
+                    },
+                    "queryRequests": {
+                      "order_products": "/order_products/find/${.id}"
+                    }
+                  }
+                ]
+              }
+            ]
+        }
+    ]
+}
+	  </code></pre>
+  </div>
+</div>
+
+</div> <!-- end of content-->
+
+<div id="rightbar">
+Adv.
+</div>
+
+</div> <!-- end of wrapper-->
+
+<div class="footer">
+  <div class="row">
+    <p>
+	  Copyright &copy; 2019 by GGoons.
+	</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>
+var toggler = document.getElementsByClassName("caret");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+}
+</script>
+<script>
+window.onscroll = function() {myFunction()};
+
+var sidebar = document.getElementById("sidebar");
+var rightbar = document.getElementById("rightbar");
+var sticky = sidebar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    sidebar.classList.add("sticky");
+    rightbar.classList.add("sticky");
+  } else {
+    sidebar.classList.remove("sticky");
+    rightbar.classList.remove("sticky");
+  }
+}
+</script>
+
+</body>
+</html>

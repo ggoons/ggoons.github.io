@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+  <link rel="stylesheet" href="../css/tg.css" />
+</head>
+<body>
+
+
+<div class="head">
+  <h1 class="large-font"><b>Testggoon</b></h1>
+  <p style="color:MediumSeaGreen;">Test data and test code generator for api server</p>
+</div>
+
+<div class="menu">
+  <a href="javascript:void(0);" onclick="open_menu()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+
+<!-- The Modal -->
+<div id="popupMenu" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+   <ul>
+    <li><a href="/en/index.html">English</a></li>
+    <li><a href="/kr/index.html">Korean</a></li>
+   </ul>
+  </div>
+
+</div>
+
+<div class="wrapper">
+
+<div class="sidebar" id="sidebar">
+ <ul>
+  <li><a href="../en/index.html">English</a></li>
+  <li><a href="../kr/index.html">Korean</a></li>
+
+  <li><span class="caret">Samples</span>
+    <ul class="nested">
+      <li><span class="caret">classicmodels</span>
+        <ul class="nested">
+          <li><a href="./classicmodels.html#schema">classicmodels.json</a></li>
+          <li><a href="./classicmodels.html#schema-ex">schema-ex.json</a></li>
+          <li><a href="./classicmodels.html#api">api.json</a></li>
+	    </ul>
+	  </li>
+      <li><span class="caret">testggoon</span>
+        <ul class="nested">
+          <li><a href="./testggoon.html#schema">testggoon.json</a></li>
+          <li><a href="./testggoon.html#api">api.json</a></li>
+	    </ul>
+	  </li>
+      <!--li><span class="caret">testmall</span>
+        <ul class="nested">
+          <li><a href="./testmall.html#schema">testmall.json</a></li>
+          <li><a href="./testmall.html#schema-ex">schema-ex.json</a></li>
+          <li><a href="./testmall.html#api">api.json</a></li>
+	    </ul>
+	  </li -->
+	</ul>
+  </li>
+
+  <li><a href="../bug/report.html">Bug report</a></li>
+
+ </ul>
+</div>
+
+<div class="content">
+
+<div id="schema" class="container">
+  <div class="row">
+	<h2>schema for testggoon</h2>
+	  <pre><code class="json">{
+  "name": "testggoon",
+  "tab": 4,
+  "authentications": [
+    {
+      "table": "customers",
+      "username": "email",
+      "password": "password",
+      "passwordHash": "sha256",
+      "role": "ROLE_CUSTOMER"
+    },
+    {
+      "table": "employees",
+      "username": "email",
+      "password": "password",
+      "passwordHash": "sha256",
+      "role": "ROLE_EMPLOYEE"
+    }
+  ],
+
+  "includeSchemas": [
+    "api.json"
+  ],
+
+  "elements": [
+    {
+      "table": "customers", "testRows": 100,
+      "stateManagement": true,
+      "properties": [
+        { "column": "customerNumber", "datatype": "int" },
+        { "column": "customerName", "datatype": "string(50)" },
+        { "column": "contactLastName", "datatype": "string(50)" },
+        { "column": "contactFirstName", "datatype": "string(50)" },
+        { "column": "phone", "datatype": "string(50)" },
+        { "column": "email", "datatype": "string(100)", "pattern": "email" },
+        { "column": "password", "datatype": "string(255)" },
+        { "column": "addressLine1", "datatype": "string(50)" },
+        { "column": "addressLine2", "datatype": "string(50)", "required": false },
+        { "column": "city", "datatype": "string(50)" },
+        { "column": "state", "datatype": "string(50)", "required": false },
+        { "column": "postalCode", "datatype": "string(15)", "required": false },
+        { "column": "country", "datatype": "string(50)" },
+        { "column": "salesRepEmployeeNumber", "datatype": "int", "required": false },
+        { "column": "createdAt", "datatype": "datetime" },
+        { "column": "point", "datatype": "int" },
+        { "column": "blackPoint", "datatype": "int" },
+        { "column": "level", "datatype": "int" },
+        { "column": "creditLimit", "datatype": "double", "required": false }
+      ],
+      "primaryKey": { "columns": "customerNumber", "from": "user" },
+      "uniqueKeys": [
+        "email"
+      ],
+      "manyToOnes": [
+        { "table": "employees", "join": "salesRepEmployeeNumber = employeeNumber" }
+      ],
+      "oneToManies": [
+        { "table": "orders", "join": "customerNumber = customerNumber" },
+        { "table": "payments", "join": "customerNumber = customerNumber" }
+      ],
+      "manyToManies": [
+        {
+          "table": "customers", "as":"friends",
+          "joinTable": "customer_friends"
+        }
+      ]
+    },
+    {
+      "table": "employees",
+      "properties": [
+        { "column": "employeeNumber", "datatype": "int" },
+        { "column": "lastName", "datatype": "string(50)" },
+        { "column": "firstName", "datatype": "string(50)" },
+        { "column": "extension", "datatype": "string(10)" },
+        { "column": "email", "datatype": "string(100)", "pattern": "email" },
+        { "column": "password", "datatype": "string(255)" },
+        { "column": "officeCode", "datatype": "string(10)" },
+        { "column": "reportsTo", "datatype": "int", "required": false },
+        { "column": "jobTitle", "datatype": "string(50)" }
+      ],
+      "primaryKey": { "columns": "employeeNumber", "from": "user" },
+      "uniqueKeys": [
+        "email"
+      ],
+      "manyToOnes": [
+        { "table": "employees", "as": "manager", "join": "reportsTo = employeeNumber" },
+        { "table": "offices", "join": "officeCode = officeCode", "tasks": "edit" }
+      ],
+      "oneToManies": [
+        { "table": "customers", "join": "employeeNumber = salesRepEmployeeNumber" },
+        {
+          "table": "employees", "as": "my_employees",
+          "join": "employeeNumber = reportsTo", "mappedBy": "manager"
+        }
+      ]
+    },
+    {
+      "table": "offices",
+      "stateManagement": true,
+      "properties": [
+        { "column": "officeCode", "datatype": "string(10)" },
+        { "column": "city", "datatype": "string(50)" },
+        { "column": "phone", "datatype": "string(50)" },
+        { "column": "addressLine1", "datatype": "string(50)" },
+        { "column": "addressLine2", "datatype": "string(50)", "required": false },
+        { "column": "state", "datatype": "string(50)", "required": false },
+        { "column": "country", "datatype": "string(50)" },
+        { "column": "postalCode", "datatype": "string(15)" },
+        { "column": "territory", "datatype": "string(10)" }
+      ],
+      "primaryKey": { "columns": "officeCode", "from": "user" },
+      "oneToManies": [
+        { "table": "employees", "join": "officeCode = officeCode" }
+      ]
+    },
+    {
+      "table": "orderdetails",
+      "properties": [
+        { "column": "orderNumber", "datatype": "int" },
+        { "column": "productCode", "datatype": "string(15)" },
+        { "column": "quantityOrdered", "datatype": "int" },
+        { "column": "priceEach", "datatype": "double" },
+        { "column": "orderLineNumber", "datatype": "short" }
+      ],
+      "primaryKey": { "columns": "orderNumber, productCode", "from": "user" },
+      "manyToOnes": [
+        { "table": "orders", "join": "orderNumber = orderNumber" },
+        { "table": "products", "join": "productCode = productCode" }
+      ]
+    },
+    {
+      "table": "orders",
+      "properties": [
+        { "column": "orderNumber", "datatype": "int" },
+        { "column": "orderDate", "datatype": "date" },
+        { "column": "requiredDate", "datatype": "date" },
+        { "column": "shippedDate", "datatype": "date", "required": false },
+        { "column": "status", "datatype": "string(15)" },
+        { "column": "comments", "datatype": "text", "required": false },
+        { "column": "customerNumber", "datatype": "int" }
+      ],
+      "primaryKey": { "columns": "orderNumber", "from": "user" },
+      "manyToOnes": [
+        { "table": "customers", "join": "customerNumber = customerNumber" }
+      ],
+      "oneToManies": [
+        { "table": "orderdetails", "join": "orderNumber = orderNumber" }
+      ],
+      "manyToManies": [
+        {
+          "table": "products",
+          "joinTable": "orderdetails"
+        }
+      ]
+    },
+    {
+      "table": "payments",
+      "properties": [
+        { "column": "customerNumber", "datatype": "int" },
+        { "column": "checkNumber", "datatype": "string(50)" },
+        { "column": "paymentDate", "datatype": "date" },
+        { "column": "amount", "datatype": "double" }
+      ],
+      "primaryKey": { "columns": "customerNumber, checkNumber", "from": "user" },
+      "manyToOnes": [
+        { "table": "customers", "join": "customerNumber = customerNumber" }
+      ]
+    },
+    {
+      "table": "productlines",
+      "properties": [
+        { "column": "productLine", "datatype": "string(50)" },
+        { "column": "textDescription", "datatype": "text(4000)", "required": false },
+        { "column": "htmlDescription", "datatype": "text", "required": false },
+        {
+          "column": "image", "datatype": "binary(16777215)", "required": false,
+          "mediaType": "imageType"
+        }
+      ],
+      "primaryKey": { "columns": "productLine", "from": "user" },
+      "oneToManies": [
+        { "table": "products", "join": "productLine = productLine" }
+      ]
+    },
+    {
+      "table": "products", "testRows": 100,
+      "properties": [
+        { "column": "productCode", "datatype": "string(15)" },
+        { "column": "productName", "datatype": "string(70)" },
+        { "column": "productLine", "datatype": "string(50)" },
+        { "column": "productScale", "datatype": "string(10)" },
+        { "column": "productVendor", "datatype": "string(50)" },
+        { "column": "productDescription", "datatype": "text" },
+        { "column": "quantityInStock", "datatype": "short" },
+        { "column": "buyPrice", "datatype": "double" },
+        { "column": "createdAt", "datatype": "datetime" },
+        { "column": "language", "datatype": "string(20)" },
+        { "column": "MSRP", "datatype": "double" }
+      ],
+      "primaryKey": { "columns": "productCode", "from": "user" },
+      "manyToOnes": [
+        { "table": "productlines", "join": "productLine = productLine" }
+      ],
+      "oneToManies": [
+        { "table": "orderdetails", "join": "productCode = productCode" }
+      ],
+      "manyToManies": [
+        {
+          "table": "categories",
+          "joinTable": "category_to_products"
+        },
+        {
+          "table": "tags",
+          "joinTable": "tags_to_products"
+        },
+        {
+          "table": "orders",
+          "joinTable": "orderdetails"
+        }
+      ]
+    },
+    {
+      "table": "categories", "testRows": 10,
+      "properties": [
+        { "column": "id", "datatype": "int", "autoIncrement": true, "hidden": true },
+        { "column": "parent_id", "datatype": "int", "required": false },
+        { "column": "name", "datatype": "string(255)" },
+        { "column": "icon", "datatype": "string(255)" }
+      ],
+      "primaryKey": { "columns": "id", "from": "dbms" },
+      "manyToOnes": [
+        { "table": "categories", "as": "parent_categories", "join": "parent_id = id" }
+      ],
+      "oneToManies": [
+        { "table": "categories", "as": "sub_categories", "join": "id = parent_id", 
+          "mappedBy": "parent_categories" 
+        }
+      ],
+      "manyToManies": [
+        {
+          "table": "products",
+          "joinTable": "category_to_products"
+        }
+      ]
+    },
+    {
+      "table": "tags", "genTo": "service", "testRows": 10,
+      "properties": [
+        { "column": "id", "datatype": "int", "autoIncrement": true, "hidden": true },
+        { "column": "name", "datatype": "string(255)" }
+      ],
+      "uniqueKeys": [ "name" ],
+      "primaryKey": { "columns": "id", "from": "dbms" },
+      "manyToManies": [
+        {
+          "table": "products",
+          "joinTable": "tags_to_products"
+        }
+      ]
+    },
+    {
+      "table": "category_to_products",
+      "properties": [
+        { "column": "category_id", "datatype": "int" },
+        { "column": "productCode", "datatype": "string(15)" }
+      ],
+      "primaryKey": { "columns": "category_id, productCode", "from": "user" },
+      "manyToOnes": [
+        { "table": "categories", "join": "category_id = id" },
+        { "table": "products", "join": "productCode = productCode" }
+      ]
+    },
+    {
+      "table": "tags_to_products",
+      "properties": [
+        { "column": "tag_id", "datatype": "int" },
+        { "column": "productCode", "datatype": "string(15)" }
+      ],
+      "primaryKey": { "columns": "tag_id, productCode", "from": "user" },
+      "manyToOnes": [
+        { "table": "tags", "join": "tag_id = id" },
+        { "table": "products", "join": "productCode = productCode" }
+      ]
+    },
+    {
+      "table": "customer_friends",
+      "properties": [
+        { "column": "customerNumber", "datatype": "int" },
+        { "column": "friendNumber", "datatype": "int" }
+      ],
+      "primaryKey": { "columns": "customerNumber, friendNumber", "from": "user" },
+      "manyToOnes": [
+        { "table": "customers", "join": "customerNumber = customerNumber" },
+        { "table": "customers", "as":"friends", "join": "friendNumber = customerNumber" }
+      ]
+    },
+    {
+      "table": "test_t1", "testRows": 100,
+      "properties": [
+        { "column": "productCode1", "datatype": "int" },
+        { "column": "productCode2", "datatype": "string(70)" },
+        { "column": "productName", "datatype": "string(70)" },
+        { "column": "productLine1", "datatype": "string(50)" },
+        { "column": "productLine2", "datatype": "string(50)" },
+        { "column": "productVendor", "datatype": "string(50)" },
+        { "column": "quantityInStock", "datatype": "short" },
+        { "column": "createdAt", "datatype": "datetime" },
+        { "column": "language", "datatype": "string(20)" },
+        { "column": "MSRP", "datatype": "double" }
+      ],
+      "primaryKey": { "columns": "productCode1, productCode2", "from": "user" },
+      "manyToOnes": [
+        { "table": "oneof_test_t1", "join": "productLine1=productLine1, productLine2=productLine2" }
+      ],
+      "oneToManies": [
+        { "table": "hasmany_test_t1", "join": "productCode1=productCode1, productCode2=productCode2" }
+      ],
+      "manyToManies": [
+        {
+          "table": "manytomany_test_t1",
+          "joinTable": "join_test_t1"
+        }
+      ]
+    },
+    {
+      "table": "oneof_test_t1", "testRows": 100,
+      "properties": [
+        { "column": "productLine1", "datatype": "string(50)" },
+        { "column": "productLine2", "datatype": "string(50)" },
+        { "column": "desc", "datatype": "string(50)" },
+        { "column": "quantityInStock", "datatype": "short" }
+      ],
+      "primaryKey": { "columns": "productLine1, productLine2", "from": "user" },
+      "oneToManies": [
+        { "table": "test_t1", "join": "productLine1=productLine1, productLine2=productLine2" }
+      ]
+    },
+    {
+      "table": "hasmany_test_t1", "testRows": 100,
+      "properties": [
+        { "column": "id", "datatype": "int" },
+        { "column": "productCode1", "datatype": "int" },
+        { "column": "productCode2", "datatype": "string(70)" },
+        { "column": "desc", "datatype": "string(50)" }
+      ],
+      "primaryKey": { "columns": "id", "from": "dbms" },
+      "manyToOnes": [
+        { "table": "test_t1", "join": "productCode1=productCode1, productCode2=productCode2" }
+      ]
+    },
+    {
+      "table": "manytomany_test_t1", "testRows": 100,
+      "properties": [
+        { "column": "id", "datatype": "int" },
+        { "column": "name", "datatype": "string(70)" },
+        { "column": "desc", "datatype": "text" },
+        { "column": "price", "datatype": "double" }
+      ],
+      "primaryKey": { "columns": "id", "from": "dbms" },
+      "oneToManies": [
+        { "table": "join_test_t1", "join": "id=manytomany_test_t1_id" }
+      ],
+      "manyToManies": [
+        {
+          "table": "test_t1",
+          "joinTable": "join_test_t1"
+        }
+      ]
+    },
+    {
+      "table": "join_test_t1", "testRows": 100,
+      "properties": [
+        { "column": "manytomany_test_t1_id", "datatype": "int" },
+        { "column": "test_t1_productCode1", "datatype": "int" },
+        { "column": "test_t1_productCode2", "datatype": "string(70)" },
+      ],
+      "primaryKey": { "columns": "manytomany_test_t1_id, test_t1_productCode1, test_t1_productCode2", "from": "user" },
+      "manyToOnes": [
+        { "table": "manytomany_test_t1", "join": "manytomany_test_t1_id=id" },
+        { "table": "test_t1", "join": "test_t1_productCode1=productCode1, test_t1_productCode2=productCode2" }
+      ]
+    }
+  ]
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="schema-ex" class="container">
+  <div class="row">
+	<h2>extension</h2>
+	  <pre><code class="json">{
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="api" class="container">
+  <div class="row">
+	<h2>api</h2>
+	  <pre><code class="json">{
+    "api": {
+      "host": "http://localhost:8080",
+        "authentication": {
+          "by": "jwt",
+          "headers": [
+            { "key": "Authorization", "value": "Bearer ${jwt}" }
+          ]
+        },
+        "loginApis": [
+          {
+            "url": "/jwt/customer",
+            "roles": "ROLE_CUSTOMER",
+            "method": "post",
+            "requestBody": {
+              "username": "username",
+              "password": "password"
+            },
+            "responseBody": {
+              "tokenPath": "token"
+            }
+          }, 
+          {
+            "url": "/jwt/employee",
+            "roles": "ROLE_EMPLOYEE",
+            "method": "post",
+            "requestBody": {
+              "username": "username",
+              "password": "password"
+            },
+            "responseBody": {
+              "tokenPath": "token"
+            }
+          }
+        ],
+        "format": {
+          "datetime": "yyyy-MM-dd HH:mm:ss",
+          "date": "yyyy-MM-dd"
+        },
+        "orderBy": {
+          "key": "order-by",
+          "value": "&lt;c&gt; &lt;order&gt;",
+          "order": { 
+            "asc": "asc", 
+            "desc": "desc" 
+          }
+        },
+        "paginate": {
+          "keyToPageNo": "page-no",
+          "keyToNumRows": "num-rows",
+          "numRows": 10
+        },
+        "columnNameCases": {
+          "column": "camelcase",
+          "orderBy": "camelcase"
+        }
+    },
+    "components": [
+      {
+        "for": "query",
+        "name": "responseFromProductList",
+        "table": "products",
+        "columns": [
+          "productName",
+          "buyPrice",
+          "pLine(productlines.productLine)",
+          "total(count=orderdetails)",
+          "totalPrice(sum=orderdetails.priceEach)"
+        ]
+      },
+      {
+        "for": "query",
+        "name": "responseFromTestT1Query",
+        "table": "test_t1",
+        "columns": [
+          "productName",
+          "oneOfDesc(oneof_test_t1.desc)",
+          "hasmanyTotal(count=hasmany_test_t1)",
+          "manytomanyTotalPrice(sum=manytomany_test_t1.price)"
+        ]
+      }
+    ],
+    "elements": [
+        {
+          "table": "products",
+          "queryApis": [
+            {
+              "request": {
+                "url": "/products/query",
+                "method": "get",
+                "accessRoles": "ROLE_CUSTOMER, ROLE_EMPLOYEE",
+                "params": [
+                  { "name": "productName", "in": "query", "op": "like" },
+                  { "name": "createdAt", "in": "query", "op": "between" }
+                ]
+              },
+              "response": {
+                "body": "products(type=array)"
+              }
+            },
+            {
+              "request": {
+                "url": "/products/list",
+                "accessRoles": "ROLE_CUSTOMER, ROLE_EMPLOYEE",
+                "paginate": true,
+                "params": [
+                  { "name": "productName", "type": "string", "in": "query", "op": "like" },
+                  { "name": "productLine", "type": "string", "in": "query", "op": "=" },
+                  { "name": "language", "in": "query", "op": "=", "value": "ko", "default": true },
+                  { "name": "product4tag", "table": "tags", "in": "query", "op": "join" }
+                ]
+              },
+              "response": {
+                "orderableColumns": "buyPrice",
+                "body": "responseFromProductList"
+              }
+            },
+            {
+              "request": {
+                "url": "/products/list-in-path/:productName/:productLine/:product4tag/:language",
+                "paginate": true,
+                "accessRoles": "ROLE_CUSTOMER, ROLE_EMPLOYEE",
+                "params": [
+                  { "name": "productName", "type": "string", "in": "path", "op": "like" },
+                  { "name": "productLine", "type": "string", "in": "path", "op": "=" },
+                  { "name": "language", "in": "path", "op": "=", "value": "ko", "default": true },
+                  { "name": "product4tag", "table": "tags", "in": "path", "op": "join" }
+                ]
+              },
+              "response": {
+                "orderableColumns": "buyPrice",
+                "body": "responseFromProductList"
+              }
+            },
+            {
+              "request": {
+                "url": "/products/list-in-header",
+                "paginate": true,
+                "accessRoles": "ROLE_CUSTOMER, ROLE_EMPLOYEE",
+                "params": [
+                  { "name": "productName", "type": "string", "in": "header", "op": "like" },
+                  { "name": "productLine", "type": "string", "in": "header", "op": "=" },
+                  { "name": "language", "in": "header", "op": "=", "value": "ko", "default": true },
+                  { "name": "product4tag", "table": "tags", "in": "header", "op": "join" }
+                ]
+              },
+              "response": {
+                "orderableColumns": "buyPrice",
+                "body": "responseFromProductList"
+              }
+            },
+            {
+              "request": {
+                "url": "/products/list-in-body",
+                "paginate": true,
+                "accessRoles": "ROLE_CUSTOMER, ROLE_EMPLOYEE",
+                "params": [
+                  { "name": "productName", "type": "string", "in": "body", "op": "like" },
+                  { "name": "productLine", "type": "string", "in": "body", "op": "=" },
+                  { "name": "language", "in": "body", "op": "=", "value": "ko", "default": true },
+                  { "name": "product4tag", "table": "tags", "in": "body", "op": "join" }
+                ]
+              },
+              "response": {
+                "orderableColumns": "buyPrice",
+                "body": "responseFromProductList"
+              }
+            }
+          ]
+        },
+        {
+          "table": "customers",
+          "findApis": [
+            {
+              "request": {
+                "url": "/customers/find/:customerNumber",
+                "accessRoles": "ROLE_CUSTOMER",
+                "params": [
+                  { "name": "customerNumber", "in": "path", "value":"${expects[0].customerNumber}" }
+                ]
+              },
+              "response": {
+                "body": "customers"
+              }
+            }
+          ],
+          "queryApis": [
+            {
+              "request": {
+                "url": "/customers/list",
+                "accessRoles": "ROLE_EMPLOYEE",
+                "paginate": true,
+                "params": [
+                  { "name": "salesRepEmployeeNumber", "in": "query", "op": "=" },
+                  { "name": "city", "in": "query", "op": "like", "required": true },
+                  { "name": "state", "in": "query", "op": "like", "required": true },
+                  { "name": "country", "in": "query", "op": "!=" },
+                  { "name": "point", "in": "query", "op": "between", "class": "point" },
+                  { "name": "blackPoint", "in": "query", "op": "&lt;", "class": "point" },
+                  { "name": "level", "in": "query", "op": "&gt;=" },
+                  { "name": "creditLimit", "in": "query", "op": "&lt;=" }
+                ]
+              },
+              "response": {
+                "body": {
+                  "table": "customers",
+                  "columns": [
+                    "customerNumber",
+                    "customerName",
+                    "city",
+                    "country",
+                    "name(concat=contactFirstName, ' ', contactLastName)",
+                    "sellerName(employees.lastName)",
+                    "officeCity(employees.offices.city)",
+                    "customizedName(function=../lib/custom.custom_name)"
+                  ]
+                }
+              }
+            },
+            {
+              "request": {
+                "url": "/customers/friends",
+                "accessRoles": "ROLE_CUSTOMER",
+                "paginate": true,
+                "params": [
+                  { "name": "friend4customer", "table": "friends", "in": "query", 
+                    "op": "join", "reverse": true
+                  },
+                  { "name": "employeeName", "column":"employees.lastName", "in": "query", "op": "like" }
+                ]
+              },
+              "response": {
+                "orderableColumns": "totalFriends, totalCredits",
+                "body": {
+                  "name": "customersSub1",
+                  "table": "customers",
+                  "array": true,
+                  "columns": [
+                    "customerNumber",
+                    "name(concat=contactFirstName, ' ', contactLastName)",
+                    "customizedName(function=../lib/custom.custom_name)",
+                    "sellerName(employees.lastName)",
+                    "city(employees.offices.city)",
+                    "totalFriends(count=friends)",
+                    "totalCredits(sum=friends.creditLimit)"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": "productlines",
+          "queryApis": [
+            {
+              "request": {
+                "url": "/productlines/list",
+                "accessRoles": "ROLE_EMPLOYEE",
+                "paginate": true,
+                "params": [
+                  { "name": "textDescription", "in": "query", "op": "like" }
+                ]
+              },
+              "response": {
+                "body": {
+                  "table": "productlines",
+                  "columns": {
+                    ":columns": "*",
+                    "products": {
+                      ":columns": "*",
+                      "tags": {
+                        ":columns": "*"
+                      },
+                      "categories": {
+                        ":columns": "*",
+                        "sub_categories(table=categories, as=sub_categories)": {
+                          ":columns": "*",
+                          "products": "$ref:products"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "mutableApis": [
+            {
+              "request": {
+                "url": "/productlines/save", "method": "post, put",
+                "accessRoles": "ROLE_CUSTOMER, ROLE_EMPLOYEE",
+                "numOfTests": 2,
+                "body": {
+                  "table": "productlines",
+                  "columns": {
+                    ":columns": "*",
+                    "products": {
+                      ":columns": "*",
+                      "tags": {
+                        ":columns": "*"
+                      },
+                      "categories": {
+                        ":columns": "*",
+                        "sub_categories(table=categories, as=sub_categories)": {
+                          ":columns": "*",
+                          "products": "$ref:products"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "response": {
+                "body": "productlines"
+              },
+              "expects": [
+                {
+                  "action": "save",
+                  "$ref": "${request.body}",
+                  "queryRequests": {
+                    "productlines": "/productlines/find/${.productLine}",
+                    "products": "/products/query?productLine=${.productLine}",
+                    "tags": {
+                      "url": "/tags/query",
+                      "params": [
+                        { "name": "tag4product", "op":"join", "table": "products", "in": "query", 
+                          "value": "${product.productCode}" 
+                        }
+                      ]
+                    },
+                    "categories": {
+                      "url": "/categories/query",
+                      "params": [
+                        { "name": "category4product", "op":"join", "table": "products", "in": "query", 
+                          "value": "${product.productCode}" 
+                        }
+                      ]
+                    },
+                    "sub_categories": {
+                      "url": "/categories/query",
+                      "params": [
+                        { "name": "parent_id", "op":"=", "in": "query", 
+                          "value": "${category.id}" 
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "table": "test_t1",
+          "findApis": [
+            {
+              "request": {
+                "url": "/test_t1/find/:productCode1/:productCode2",
+                "accessRoles": "ROLE_CUSTOMER",
+                "params": [
+                  { "name": "productCode1", "in": "path", "value":"${expects[0].productCode1}" },
+                  { "name": "productCode2", "in": "path", "value":"${expects[0].productCode2}" }
+                ]
+              },
+              "response": {
+                "body": "test_t1"
+              }
+            }
+          ],
+          "queryApis": [
+            {
+              "request": {
+                "url": "/test_t1/list",
+                "accessRoles": "ROLE_EMPLOYEE",
+                "paginate": true,
+                "params": [
+                  { "name": "productLine1", "in": "query", "op": "=", "class": "pk" },
+                  { "name": "productLine2", "in": "query", "op": "=", "class": "pk" },
+                  { "name": "productName", "in": "query", "op": "like" },
+                  { "name": "createdAt", "in": "query", "op": "between",
+                    "select": {
+                      "1 weeks": ["-7d", "0"],
+                      "3 weeks": ["-21d", "0"],
+                      "1 months": ["-1m", "0"]
+                    }
+                  }
+                ]
+              },
+              "response": {
+                "body": "responseFromTestT1Query"
+              }
+            },
+            {
+              "request": {
+                "url": "/test_t1/mm",
+                "accessRoles": "ROLE_CUSTOMER",
+                "paginate": true,
+                "params": [
+                  { "name": "mmid", "table": "manytomany_test_t1", "in": "query", 
+                    "op": "join", "reverse": true, "required": true
+                  },
+                  { "name": "oneof_desc", "column":"oneof_test_t1.desc", "in": "query", "op": "like" }
+                ]
+              },
+              "response": {
+                "orderableColumns": "productName, oneOfDesc, manytomanyTotalPrice",
+                "body": "responseFromTestT1Query"
+              }
+            }
+          ]
+        }
+    ]
+}
+	  </code></pre>
+  </div>
+</div>
+
+</div> <!-- end of content-->
+
+<div id="rightbar">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- tg-ad-display -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2723563477834102"
+     data-ad-slot="6271003885"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</div> <!-- end of wrapper-->
+
+<div class="footer">
+  <div class="row">
+    <p>
+	  Copyright &copy; 2019 by GGoons.
+	</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="/js/tg.js"></script>
+
+</body>
+</html>

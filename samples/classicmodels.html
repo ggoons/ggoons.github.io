@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+  <link rel="stylesheet" href="../css/tg.css" />
+</head>
+<body>
+
+
+<div class="head">
+  <h1 class="large-font"><b>Testggoon</b></h1>
+  <p style="color:MediumSeaGreen;">Test data and test code generator for api server</p>
+</div>
+
+<div class="menu">
+  <a href="javascript:void(0);" onclick="open_menu()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+
+<!-- The Modal -->
+<div id="popupMenu" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+   <ul>
+    <li><a href="/en/index.html">English</a></li>
+    <li><a href="/kr/index.html">Korean</a></li>
+   </ul>
+  </div>
+
+</div>
+
+<div class="wrapper">
+
+<div class="sidebar" id="sidebar">
+ <ul>
+  <li><a href="../en/index.html">English</a></li>
+  <li><a href="../kr/index.html">Korean</a></li>
+
+  <li><span class="caret">Samples</span>
+    <ul class="nested">
+      <li><span class="caret">classicmodels</span>
+        <ul class="nested">
+          <li><a href="./classicmodels.html#schema">classicmodels.json</a></li>
+          <li><a href="./classicmodels.html#schema-ex">schema-ex.json</a></li>
+          <li><a href="./classicmodels.html#api">api.json</a></li>
+	    </ul>
+	  </li>
+      <li><span class="caret">testggoon</span>
+        <ul class="nested">
+          <li><a href="./testggoon.html#schema">testggoon.json</a></li>
+          <li><a href="./testggoon.html#schema-ex">schema-ex.json</a></li>
+          <li><a href="./testggoon.html#api">api.json</a></li>
+	    </ul>
+	  </li>
+	</ul>
+  </li>
+
+  <li><a href="../bug/report.html">Bug report</a></li>
+
+ </ul>
+</div>
+
+<div class="content">
+
+<div id="schema" class="container">
+  <div class="row">
+	<h2>schema for classicmodels</h2>
+	  <pre><code class="json">{
+  "name": "classicmodels",
+  "tab": 4,
+
+  "includeSchemas": [
+    "ex-schema.json",
+    "api.json"
+  ],
+
+  "elements": [
+    {
+      "table": "customers", "testRows": 100,
+      "stateManagement": true,
+      "properties": [
+        { "column": "customerNumber", "datatype": "int" },
+        { "column": "customerName", "datatype": "string(50)" },
+        { "column": "contactLastName", "datatype": "string(50)" },
+        { "column": "contactFirstName", "datatype": "string(50)" },
+        { "column": "phone", "datatype": "string(50)" },
+        { "column": "addressLine1", "datatype": "string(50)" },
+        { "column": "addressLine2", "datatype": "string(50)", "required": false },
+        { "column": "city", "datatype": "string(50)" },
+        { "column": "state", "datatype": "string(50)", "required": false },
+        { "column": "postalCode", "datatype": "string(15)", "required": false },
+        { "column": "country", "datatype": "string(50)" },
+        { "column": "salesRepEmployeeNumber", "datatype": "int", "required": false },
+        { "column": "creditLimit", "datatype": "double", "required": false }
+      ],
+      "primaryKey": { "columns": "customerNumber", "from": "user" },
+      "manyToOnes": [
+        { "table": "employees", "join": "salesRepEmployeeNumber = employeeNumber" }
+      ],
+      "oneToManies": [
+        { "table": "orders", "join": "customerNumber = customerNumber" },
+        { "table": "payments", "join": "customerNumber = customerNumber" }
+      ]
+    },
+    {
+      "table": "employees", "testRows": 100,
+      "properties": [
+        { "column": "employeeNumber", "datatype": "int" },
+        { "column": "lastName", "datatype": "string(50)" },
+        { "column": "firstName", "datatype": "string(50)" },
+        { "column": "extension", "datatype": "string(10)" },
+        { "column": "email", "datatype": "string(100)", "pattern": "email" },
+        { "column": "officeCode", "datatype": "string(10)" },
+        { "column": "reportsTo", "datatype": "int", "required": false },
+        { "column": "jobTitle", "datatype": "string(50)" }
+      ],
+      "primaryKey": { "columns": "employeeNumber", "from": "user" },
+      "manyToOnes": [
+        { "table": "employees", "as": "reportsTo_employees", "join": "reportsTo = employeeNumber" },
+        { "table": "offices", "join": "officeCode = officeCode" }
+      ],
+      "oneToManies": [
+        { "table": "customers", "join": "employeeNumber = salesRepEmployeeNumber" },
+        {
+          "table": "employees", "as": "employeeNumber_employees",
+          "join": "employeeNumber = reportsTo", "mappedBy": "reportsTo_employees"
+        }
+      ]
+    },
+    {
+      "table": "offices", "testRows": 10,
+      "stateManagement": true,
+      "properties": [
+        { "column": "officeCode", "datatype": "string(10)" },
+        { "column": "city", "datatype": "string(50)" },
+        { "column": "phone", "datatype": "string(50)" },
+        { "column": "addressLine1", "datatype": "string(50)" },
+        { "column": "addressLine2", "datatype": "string(50)", "required": false },
+        { "column": "state", "datatype": "string(50)", "required": false },
+        { "column": "country", "datatype": "string(50)" },
+        { "column": "postalCode", "datatype": "string(15)" },
+        { "column": "territory", "datatype": "string(10)" }
+      ],
+      "primaryKey": { "columns": "officeCode", "from": "user" },
+      "oneToManies": [
+        { "table": "employees", "join": "officeCode = officeCode" }
+      ]
+    },
+    {
+      "table": "orderdetails",
+      "properties": [
+        { "column": "orderNumber", "datatype": "int" },
+        { "column": "productCode", "datatype": "string(15)" },
+        { "column": "quantityOrdered", "datatype": "int" },
+        { "column": "priceEach", "datatype": "double" },
+        { "column": "orderLineNumber", "datatype": "short" }
+      ],
+      "primaryKey": { "columns": "orderNumber, productCode", "from": "user" },
+      "manyToOnes": [
+        { "table": "orders", "join": "orderNumber = orderNumber" },
+        { "table": "products", "join": "productCode = productCode" }
+      ]
+    },
+    {
+      "table": "orders", "testRows": 10,
+      "properties": [
+        { "column": "orderNumber", "datatype": "int" },
+        { "column": "orderDate", "datatype": "date" },
+        { "column": "requiredDate", "datatype": "date" },
+        { "column": "shippedDate", "datatype": "date", "required": false },
+        { "column": "status", "datatype": "string(15)" },
+        { "column": "comments", "datatype": "text", "required": false },
+        { "column": "customerNumber", "datatype": "int" }
+      ],
+      "primaryKey": { "columns": "orderNumber", "from": "user" },
+      "manyToOnes": [
+        { "table": "customers", "join": "customerNumber = customerNumber" }
+      ],
+      "oneToManies": [
+        { "table": "orderdetails", "join": "orderNumber = orderNumber" }
+      ]
+    },
+    {
+      "table": "payments",
+      "properties": [
+        { "column": "customerNumber", "datatype": "int" },
+        { "column": "checkNumber", "datatype": "string(50)" },
+        { "column": "paymentDate", "datatype": "date" },
+        { "column": "amount", "datatype": "double" }
+      ],
+      "primaryKey": { "columns": "customerNumber, checkNumber", "from": "user" },
+      "manyToOnes": [
+        { "table": "customers", "join": "customerNumber = customerNumber" }
+      ]
+    },
+    {
+      "table": "productlines", "testRows": 10,
+      "properties": [
+        { "column": "productLine", "datatype": "string(50)" },
+        { "column": "textDescription", "datatype": "text(4000)", "required": false },
+        { "column": "htmlDescription", "datatype": "text", "required": false },
+        {
+          "column": "image", "datatype": "binary(16777215)", "required": false,
+          "mediaType": "imageType"
+        }
+      ],
+      "primaryKey": { "columns": "productLine", "from": "user" },
+      "oneToManies": [
+        { "table": "products", "join": "productLine = productLine" }
+      ]
+    },
+    {
+      "table": "products", "testRows": 10,
+      "properties": [
+        { "column": "productCode", "datatype": "string(15)" },
+        { "column": "productName", "datatype": "string(70)" },
+        { "column": "productLine", "datatype": "string(50)" },
+        { "column": "productScale", "datatype": "string(10)" },
+        { "column": "productVendor", "datatype": "string(50)" },
+        { "column": "productDescription", "datatype": "text" },
+        { "column": "quantityInStock", "datatype": "short" },
+        { "column": "buyPrice", "datatype": "double" },
+        { "column": "MSRP", "datatype": "double" }
+      ],
+      "primaryKey": { "columns": "productCode", "from": "user" },
+      "manyToOnes": [
+        { "table": "productlines", "join": "productLine = productLine" }
+      ],
+      "oneToManies": [
+        { "table": "orderdetails", "join": "productCode = productCode" }
+      ]
+    }
+  ]
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="schema-ex" class="container">
+  <div class="row">
+	<h2>extension</h2>
+	  <pre><code class="json">{
+  "elements": [
+    {
+      "table": "products", "testRows": 10,
+      "manyToManies": [
+        { "table": "orders", 
+          "joinTable": "orderdetails"
+        }
+      ]
+    },
+    {
+      "alter": "products",
+      "columns": [
+        { "column": "productDescription", "attrs": "words" }
+      ]
+    },
+    {
+      "alter": "employees",
+      "columns": [
+        { "column": "lastName", "pattern": "\w{3,20}" },
+        { "column": "firstName", "attrs": "first_name" },
+        { "column": "email", "pattern": "email" }
+      ]
+    },
+    {
+      "table": "productlines", "testRows": 5,
+      "testdata": {
+        "columns": "productLine, textDescription, htmlDescription",
+        "values": [
+          ["1", "aaa", "hhh"],
+          ["2", "bbb", "hhh"],
+          ["3", "ccc", "hhh"],
+          ["4", "ddd", "hhh"],
+          ["5", "eee", "hhh"]
+        ]
+      }
+    }
+  ]
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="api" class="container">
+  <div class="row">
+	<h2>api</h2>
+	  <pre><code class="json">{
+    "api": {
+      "host": "http://localhost:8080",
+      "orderBy": {
+        "key": "order-by",
+        "value": "&lt;c&gt; &lt;order&gt;",
+        "order": {
+          "asc": "asc",
+          "desc": "desc"
+        }
+      },
+      "paginate": {
+          "keyToPageNo": "page-no",
+          "keyToNumRows": "num-rows",
+          "numRows": 10
+      },
+      "columnNameCases": {
+          "column": "original",
+          "orderBy": "original"
+      },
+      "queryApis": [
+        {
+          "table": "customers",
+          "desc": "read all customers",
+          "request": {
+            "url": "/customers/list",
+            "method": "get",
+            "concurrentRequests": 10,
+            "paginate": true,
+            "params": [
+              { "name": "city", "in": "query", "op": "like", "desc": "customers by city" },
+              { "name": "state", "in": "query", "op": "like" },
+              { "name": "salesRepEmployeeNumber", "in": "query", "op": "=" }
+            ]
+          },
+          "response": {
+            "body": {
+              "table": "customers",
+              "orderableColumns": "customerName, city",
+              "columns": [
+                "customerNumber",
+                "customerName",
+                "city",
+                "country"
+              ]
+            }
+          }
+        },
+        {
+          "table": "customers",
+          "request": {
+            "url": "/customers/statistics",
+            "method": "get",
+            "params": [
+              { "name": "customerNumber", "in": "query", "op": "in" },
+              { "name": "paymentDate", "column": "customers.payments.paymentDate", 
+                "in": "query", "op": "between" 
+              },
+              { "name": "salesRepEmployeeNumber", "in": "query", "op": "=" }
+            ]
+          },
+          "response": {
+            "filter": {
+              "name": "customerPayment",
+              "file": "../json/classicmodels/json/js/customer_payments.js",
+              "functionName": "filter4customer_payments"
+            },
+            "body": {
+              "table": "customers",
+              "groupBy": [
+                "customerNumber",
+                "payments.paymentDate(by=ym, format=%Y-%m)"
+              ],
+              "columns": {
+                "customerNumber": ".",
+                "__xtra__": {
+                  "Amount": "sum=payments.amount"
+                },
+                "payments": { 
+                  "paymentDate": "paymentDate" 
+                }
+              }
+            }
+          }
+        }
+      ],
+      "findApis": [
+        {
+          "table": "customers",
+          "request": {
+            "url": "/customers/show/:customerNumber",
+            "method": "get",
+            "params": [
+              { "name": "customerNumber", "in": "path", "op": "=" }
+            ]
+          },
+          "response": {
+            "body": "customers"
+          }
+        }
+      ],
+      "mutableApis": [
+        {
+          "table": "customers",
+          "request": {
+            "url": "/customers/edit",
+            "method": "post",
+            "body": {
+              "customer": {
+                ":columns": "*"
+              }
+            }
+          },
+          "response": {
+            "body": "${request.body}"
+          },
+          "expects": [
+            {
+              "action": "save",
+              "$ref": "${request.body}",
+              "queryRequests": {
+                "customers": "/customers/edit/${.customer.customerNumber}"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "elements": [
+      {
+        "table": "employees",
+        "queryApis": [
+          {
+            "request": {
+              "url": "/employees/list",
+              "method": "get",
+              "paginate": true,
+              "params": [
+                { "name": "lastName", "in": "query", "op": "like" },
+                { "name": "reportsTo", "in": "query", "op": "=" },
+                { "name": "officeCode", "in": "query", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "employees"
+            }
+          }
+        ],
+        "findApis": [
+          {
+            "request": {
+              "url": "/employees/show/:employeeNumber",
+              "method": "get",
+              "params": [
+                { "name": "employeeNumber", "in": "path", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "employees"
+            }
+          }
+        ],
+        "mutableApis": [
+          {
+            "request": {
+              "url": "/employees/edit",
+              "method": "post",
+              "body": {
+                "employee": {
+                  ":columns": "*"
+                }
+              }
+            },
+            "response": {
+              "body": "${request.body}"
+            },
+            "expects": [
+              {
+                "action": "save",
+                "$ref": "${request.body}",
+                "queryRequests": {
+                  "employees": "/employees/edit/${.employee.employeeNumber}"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "table": "offices",
+        "queryApis": [
+          {
+            "request": {
+              "url": "/offices/list",
+              "method": "get",
+              "paginate": true,
+              "params-wait": [
+                { "name": "city", "in": "query", "op": "like" }
+              ]
+            },
+            "response": {
+              "body": "offices"
+            }
+          },
+          {
+            "request": {
+              "url": "/offices/map",
+              "method": "get"
+            },
+            "response": {
+              "body": "offices"
+            }
+          }
+        ],
+        "findApis": [
+          {
+            "request": {
+              "url": "/offices/show/:officeCode",
+              "method": "get",
+              "params": [
+                { "name": "officeCode", "in": "path", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "offices"
+            }
+          }
+        ],
+        "mutableApis": [
+          {
+            "request": {
+              "url": "/offices/edit",
+              "method": "post",
+              "body": {
+                "office": {
+                  ":columns": "*"
+                }
+              }
+            },
+            "response": {
+              "body": "${request.body}"
+            },
+            "expects": [
+              {
+                "action": "save",
+                "$ref": "${request.body}",
+                "queryRequests": {
+                  "offices": "/offices/edit/${.office.officeCode}"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "table": "orderdetails",
+        "queryApis": [
+          {
+            "request": {
+              "url": "/orderdetails/list",
+              "method": "get",
+              "paginate": true,
+              "params": [
+                { "name": "orderNumber", "in": "query", "op": "=" },
+                { "name": "productCode", "in": "query", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": {
+                "table": "orderdetails",
+                "columns": "*",
+                "defaultOrderBy": "orderNumber, productCode"
+              }
+            }
+          }
+        ],
+        "findApis": [
+          {
+            "request": {
+              "url": "/orderdetails/show/:orderNumber/:productCode",
+              "method": "get",
+              "params": [
+                { "name": "orderNumber", "in": "path", "op": "=" },
+                { "name": "productCode", "in": "path", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "orderdetails"
+            }
+          }
+        ],
+        "mutableApis": [
+          {
+            "request": {
+              "url": "/orderdetails/edit",
+              "method": "post",
+              "body": {
+                "orderdetail": {
+                  ":columns": "*"
+                }
+              }
+            },
+            "response": {
+              "body": "${request.body}"
+            },
+            "expects": [
+              {
+                "action": "save",
+                "$ref": "${request.body}",
+                "queryRequests": {
+                  "orderdetails": "/orderdetails/edit/${.orderdetail.orderNumber}/${.orderdetail.productCode}"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "table": "orders",
+        "queryApis": [
+          {
+            "request": {
+              "url": "/orders/list",
+              "method": "get",
+              "paginate": true,
+              "params": [
+                { "name": "customerNumber", "in": "query", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "orders"
+            }
+          }
+        ],
+        "findApis": [
+          {
+            "request": {
+              "url": "/orders/show/:orderNumber",
+              "method": "get",
+              "params": [
+                { "name": "orderNumber", "in": "path", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "orders"
+            }
+          }
+        ],
+        "mutableApis": [
+          {
+            "request": {
+              "url": "/orders/edit",
+              "method": "post",
+              "body": {
+                "order": {
+                  ":columns": "*"
+                }
+              }
+            },
+            "response": {
+              "body": "${request.body}"
+            },
+            "expects": [
+              {
+                "action": "save",
+                "$ref": "${request.body}",
+                "queryRequests": {
+                  "orders": "/orders/edit/${.order.orderNumber}"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "table": "payments",
+        "queryApis": [
+          {
+            "request": {
+              "url": "/payments/list",
+              "method": "get",
+              "paginate": true,
+              "params": [
+                { "name": "customerNumber", "in": "query", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": {
+                "table": "payments",
+                "columns": "*",
+                "defaultOrderBy": "checkNumber"
+              }
+            }
+          }
+        ],
+        "findApis": [
+          {
+            "request": {
+              "url": "/payments/show/:customerNumber/:checkNumber",
+              "method": "get",
+              "params": [
+                { "name": "customerNumber", "in": "path", "op": "=" },
+                { "name": "checkNumber", "in": "path", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "payments"
+            }
+          }
+        ],
+        "mutableApis": [
+          {
+            "request": {
+              "url": "/payments/edit",
+              "method": "post",
+              "body": {
+                "payment": {
+                  ":columns": "*"
+                }
+              }
+            },
+            "response": {
+              "body": "${request.body}"
+            },
+            "expects": [
+              {
+                "action": "save",
+                "$ref": "${request.body}",
+                "queryRequests": {
+                  "payments": "/payments/edit/${.payment.customerNumber}/${.payment.checkNumber}"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "table": "productlines",
+        "queryApis": [
+          {
+            "request": {
+              "url": "/productlines/list",
+              "method": "get",
+              "paginate": true
+            },
+            "response": {
+              "body": "productlines"
+            }
+          }
+        ],
+        "findApis": [
+          {
+            "request": {
+              "url": "/productlines/show/:productLine",
+              "method": "get",
+              "params": [
+                { "name": "productLine", "in": "path", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "productlines"
+            }
+          }
+        ],
+        "mutableApis": [
+          {
+            "request": {
+              "url": "/productlines/edit",
+              "method": "post",
+              "body": {
+                "productline": {
+                  ":columns": "*"
+                }
+              }
+            },
+            "response": {
+              "body": "${request.body}"
+            },
+            "expects": [
+              {
+                "action": "save",
+                "$ref": "${request.body}",
+                "queryRequests": {
+                  "productlines": "/productlines/edit/${.productline.productLine}"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "table": "products",
+        "queryApis": [
+          {
+            "request": {
+              "url": "/products/list",
+              "method": "get",
+              "paginate": true,
+              "params": [
+                { "name": "productLine", "in": "query", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "products"
+            }
+          }
+        ],
+        "findApis": [
+          {
+            "request": {
+              "url": "/products/show/:productCode",
+              "method": "get",
+              "params": [
+                { "name": "productCode", "in": "path", "op": "=" }
+              ]
+            },
+            "response": {
+              "body": "products"
+            }
+          }
+        ],
+        "mutableApis": [
+          {
+            "request": {
+              "url": "/products/edit",
+              "method": "post",
+              "body": {
+                "product": {
+                  ":columns": "*"
+                }
+              }
+            },
+            "response": {
+              "body": "${request.body}"
+            },
+            "expects": [
+              {
+                "action": "save",
+                "$ref": "${request.body}",
+                "queryRequests": {
+                  "products": "/products/edit/${.product.productCode}"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+}
+	  </code></pre>
+  </div>
+</div>
+
+</div> <!-- end of content-->
+
+<div id="rightbar">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- tg-ad-display -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2723563477834102"
+     data-ad-slot="6271003885"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</div> <!-- end of wrapper-->
+
+<div class="footer">
+  <div class="row">
+    <p>
+	  Copyright &copy; 2019 by GGoons.
+	</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="/js/tg.js"></script>
+
+</body>
+</html>

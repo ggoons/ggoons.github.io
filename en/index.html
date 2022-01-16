@@ -1,411 +1,3391 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GGoons Home">
-    <title>GGoons</title>
-
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-    
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
-    <!--<![endif]-->
-    
-    
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="/css/layouts/blog-old-ie.css">
-        <![endif]-->
-        <!--[if gt IE 8]><!-->
-            <link rel="stylesheet" href="/css/layouts/blog.css">
-        <!--<![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+  <link rel="stylesheet" href="../css/tg.css" />
 </head>
 <body>
 
 
+<div class="head">
+  <h1 class="large-font"><b>Testggoon</b></h1>
+  <p style="color:white;">Test data and test code generator for api server</p>
+</div>
+
+<div class="menu">
+  <a href="javascript:void(0);" onclick="open_menu()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+
+<!-- The Modal -->
+<div id="popupMenu" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+   <ul>
+    <li><a href="/kr/index.html">Korean</a></li>
+    <li><a href="#intro">What is the tg?</a></li>
+    <li><a href="#api-specification">API specification</a></li>
+    <li><a href="#query">Query api</a></li>
+    <li><a href="#find">Find api</a></li>
+    <li><a href="#mutable">Mutable api</a></li>
+    <li><a href="#subTable">Component</a></li>
+    <li><a href="#tg-cli">tg-cli</a></li>
+    <li><a href="#tg-schema">tg schema</a></li>
+    <li><a href="#ex-schema">schema extension</a></li>
+    <li><a href="#fixed-testdata">Custom testdata</a></li>
+    <li><a href="../samples/classicmodels.html">samples: classicmodels.json</a></li>
+    <li><a href="../samples/testggoon.html">samples: testggoon.json</a></li>
+   </ul>
+  </div>
+
+</div>
+
+<div class="wrapper">
+
+<div class="sidebar" id="sidebar">
+ <ul>
+  <li><a href="/kr/index.html">Korean</a></li>
+  <li><span class="caret">Introduction</span>
+    <ul class="nested">
+      <li><a href="#intro">What is the tg?</a></li>
+      <li><a href="#schema0">tg schema</a></li>
+      <li><a href="#schema1">Schema extension</a></li>
+      <li><a href="#api0">API</a></li>
+      <li><a href="#subTable0">Component</a></li>
+	</ul>
+  </li>
+  <li><span class="caret">API specification</span>
+    <ul class="nested">
+      <li><span class="caret"><a href="#api-specification">Overview</a></span>
+	    <ul class="nested">
+          <li><a href="#api-columnNameCase">column name</a></li>
+          <li><a href="#api-authentication">authentication</a></li>
+          <li><a href="#api-login">login api</a></li>
+          <li><a href="#api-paginate">paginate</a></li>
+          <li><a href="#api-order-by">order by</a></li>
+		</ul>
+	  </li>
+      <li><span class="caret"><a href="#query">Query api</a></span>
+	    <ul class="nested">
+          <li><a href="#query-request">request</a></li>
+          <li><a href="#query-request-params">request.params</a></li>
+          <li><a href="#query-response">response</a></li>
+		</ul>
+	  </li>
+      <li><a href="#find">Find api</a></li>
+      <li><span class="caret"><a href="#mutable">Mutable api</a></span>
+	    <ul class="nested">
+          <li><a href="#mutable-request">request</a></li>
+          <li><a href="#mutable-response">response</a></li>
+          <li><a href="#mutable-expects">expects</a></li>
+		</ul>
+	  </li>
+      <li><a href="#subTable">Component</a></li>
+      <li><a href="#subTable-columns">Component columns</a></li>
+      <li><a href="#querySubTable">Component for Query api</a></li>
+    </ul>
+  </li>
+  <li><span class="caret">tg-cli</span>
+    <ul class="nested">
+      <li><a href="#tg-cli">Glossary</a></li>
+      <li><a href="#installation">Installation</a></li>
+      <li><span class="caret">How to</span>
+        <ul class="nested">
+          <li><a href="#generate">Generate</a></li>
+          <li><a href="#initialize">Initialize</a></li>
+          <li><a href="#gen-test-database">Burn test database</a></li>
+          <li><a href="#run-api-server">Run api server</a></li>
+          <li><a href="#find-and-query-test">find and query api test</a></li>
+          <li><a href="#mutable-request">mutable api test</a></li>
+	    </ul>
+	  </li>
+	</ul>
+  </li>
+  <li><span class="caret">tg Schema</span>
+    <ul class="nested">
+      <li><span class="caret">Basic</span>
+        <ul class="nested">
+          <li><a href="#tg-schema">tg schema</a></li>
+          <li><a href="#table">Table</a></li>
+          <li><a href="#column">Column</a></li>
+          <li><a href="#object">Object</a></li>
+          <li><span class="caret">Relationships</span>
+            <ul class="nested">
+              <li><a href="#one-to-many">one-to-many</a></li>
+              <li><a href="#many-to-one">many-to-one</a></li>
+              <li><a href="#many-to-many">many-to-many</a></li>
+              <li><a href="#one-to-one">one-to-one</a></li>
+	        </ul>
+		  </li>
+	    </ul>
+	  </li>
+      <li><span class="caret">Extension</span>
+        <ul class="nested">
+          <li><a href="#ex-schema">schema extension</a></li>
+          <li><a href="#fixed-testdata">Custom testdata</a></li>
+	    </ul>
+	  </li>
+	</ul>
+  </li>
+
+  <li><span class="caret">Samples</span>
+    <ul class="nested">
+      <li><span class="caret">classicmodels</span>
+        <ul class="nested">
+          <li><a href="../samples/classicmodels.html#schema">classicmodels.json</a></li>
+          <li><a href="../samples/classicmodels.html#schema-ex">schema-ex.json</a></li>
+          <li><a href="../samples/classicmodels.html#api">api.json</a></li>
+	    </ul>
+	  </li>
+      <li><span class="caret">testggoon</span>
+        <ul class="nested">
+          <li><a href="../samples/testggoon.html#schema">testggoon.json</a></li>
+          <li><a href="../samples/testggoon.html#api">api.json</a></li>
+	    </ul>
+	  </li>
+	</ul>
+  </li>
+
+ </ul>
+</div>
+
+<div class="content">
+
+<div id="intro" class="container">
+  <div class="row">
+	  <h2>What is the tg?</h2>
+      <p>
+		Testggoon(hereinafter referred to as tg) has two functions: 
+		test data generation function and 
+		test code generation function to test api server.
+		In addition, 
+		the generated test data and test code have a strong association.
+      </p>
 
 
+	  <h3>Test data generation</h3>
+	  <p>
+		As you develop your software, you may need test data.
+		For small amount of test data, you may made by yourself.
+		For large amount of test data, 
+			you can make script to generate test data
+			or you can use tools to generate test data.
+		With tg you can get a small amount of test data or as much test data as you want, 
+		depending on the quality of the test data, simply or with a little labor.
+		For example, if you are currently using mysql and 
+		the JDBC connetor for mysql exists in the current classpath, 
+		you can generate 1000 test data per each tables with the following command:
+	  </p>
+	  <pre><code class="shell">
+$ tg -m mysql -b databaseName -u userName -p password -t 1000
+	  </code></pre>
+	  By this command, tg generates test data in a file in csv format.
+	  And tg generate two scripts that can generate test data for mysql and for mongoDB.
+	  If you are using a DBMS other than mysql and mongoDB, 
+	  you can refer to these two scripts and modify them to suit your DBMS.
 
+	  <h3>API server test</h3>
+	  <p>
+		Coding is fun, but creating test code can be annoying.
+		tg generates the expected values predicting the response of api 
+		based on the test data generated earlier 
+		and the api information provided by the user.
+		Based on this expectation, tg generate the api server test code.
+		The api server test code generated by tg is for node.js Supertest, 
+		but because it uses HTTP and JSON to communicate with the api server, 
+		it can be used regardless of what framework or language your api server is written in.
+	  </p>
 
+      <!--p>
+		Testggoon(we call "tg" in this document) is 
+		test data and api test code generator 
+		based on the database schema and api specification.
+		
+		The test data generated by tg is in csv format and can be used in any DBMS.
+		The api server test code generated by tg is node.js code, 
+		but because it uses HTTP and JSON to communicate with the api server, 
+		it can be used regardless of what framework or language your api server is written in.
+		
+		In order to use tg, the user must prepare the DB schema and api specification.
+	  </p -->
+	  <div>
+	    <img class="zoom" src="../img/testggoon-concept.png" class="center"/>
+	  </div>
+  </div>
+</div>
 
-<div id="layout" class="pure-g">
-    <div class="sidebar pure-u-1 pure-u-md-1-4">
-        <div class="header">
-            <h1 class="brand-title">GGoons</h1>
-            <h2 class="brand-tagline">Coding Agency Service</h2>
-			<hr/>
+<div id="schema0" class="container">
+  <div class="row">
+	  <h2>tg schema</h2>
 
-            <nav class="nav">
-            <div class="pure-menu">
-                <ul class="pure-menu-list">
-                    <li class="pure-menu-item"><a href="#intro" class="pure-menu-link">Introduction</a></li>
-                    <li class="pure-menu-item"><a href="#price" class="pure-menu-link">Price</a></li>
-                    <li class="pure-menu-item"><a href="#process" class="pure-menu-link">How can I use</a></li>
-                    <li class="pure-menu-item"><a href="#samples" class="pure-menu-link">Samples</a></li>
-                    <li class="pure-menu-item"><a href="/kr/index.html" class="pure-menu-link">Korean</a></li>
-                </ul>
-            </div>
-            </nav>
-        </div>
-    </div>
+      <p>
+		The tg schema is a JSON representation of the DB schema.
+		tg extracts the information needed to generate test data from the tg schema.
+		If your DBMS is an RDB, you do not need to create the tg schema yourself.
+		Most DBMS for RDB has a JDBC driver,
+		and tg uses this to automatically generate the tg schema.
+		However, if you use a DBMS that cannot connect with JDBC, such as noSQL,
+		you should refer to
+		<a href="#tg-schema">here</a> and write your own tg schema.
+      </p>
+	  <div>
+	    <img class="zoomx" src="../img/db-schema-to-tg-schema.png" class="center"/>
+	  </div>
 
-    <div class="content pure-u-1 pure-u-md-3-4">
-        <div>
-            <!-- A wrapper for all the blog posts -->
-            <div class="posts" id="intro">
-                <h1 class="content-subhead"></h1>
+      <!--p>
+		The tg schema is a JSON representation of the DB schema.
+		To generate test data, tg schema is basically required.
+		If the target database uses an RDB connected to JDBC, 
+		you only need to tell tg the JDBC and connection information
+		without creating a tg schema.
+		But other than that, you should refer to
+		<a href="#tg-schema">here</a> and write your own tg schema.
+	  </p>
+	  <pre><code class="json">{
+  "name": "classicmodels",
+  "elements": [
+    {
+      "table": "customers",
+      "properties": [
+         { "column": "customerNumber", "datatype": "int" },
+         { "column": "customerName", "datatype": "string(255)" },
+         { "column": "salesRepEmployeeNumber", "datatype": "int", "required": false },
+        ...
+      ],
+      "primaryKey": { "columns": "customerNumber", "from": "user" },
+      "manyToOnes": [
+        { "table": "employees", "join": "salesRepEmployeeNumber = employeeNumber" }
+      ],
+      "oneToManies": [
+        { "table": "orders", "join": "customerNumber = customerNumber" },
+        { "table": "payments", "join": "customerNumber = customerNumber" }
+      ],
+    }
+  ],
+  ...
+}
+</code></pre -->
+  </div>
+</div>
 
-                <!-- A single blog post -->
-                <section class="post">
-                    <header class="post-header">
-                        <h2 class="post-title">Introduction</h2>
-                    </header>
+<div id="schema1" class="container">
+  <div class="row">
+	  <h2>schema extension</h2>
+      <p>
+		The tg schema contains only information at the DB schema level.
+		If test data is generated by a pure tg schema, 
+		the generated test data is mostly meaningless random numbers, 
+		except for column values for make relationship between each tables.
+		If you want the test data generated by tg to be closer to the real data, 
+		you need to provide tg with additional information.
+		For example, if you want to create column values that represent 
+		names, addresses, e-mail addresses, credit card numbers, etc. as actual data,
+		Or if you need a special rule such as the order date of the goods should come 
+		before the delivery date and payment date,
+		you should tell tg this.
+		See <a href="#tg-schema">here</a> for more details about schema extensions.
+      </p>
+      <!--p>
+		The tg schema contains only information at the DB schema level.
+		However, more information is needed to 
+			generate the test data closer to the actual data.
+		You can extend the tg schema to provide additional information 
+			for the column and table relationships.
+		For more information about the schema extension, 
+		see <a href="#ex-schema">here</a>.
+	  </p>
+	  <pre><code class="json">{
+  "elements": [
+    {
+      "comment": "You can add many-to-many relationships to the table as like below.",
+      "table": "products",
+      "manyToManies": [
+        { "table": "orders", 
+          "joinTable": { "name": "orderdetails" }
+        }
+      ]
+    },
+    {
+      "comment": "You can alter table columns as like below",
+      "alter": "products",
+      "columns": [
+        { "column": "product_image_path", "mediaType": "imagePath" },
+		...
+      ]
+    },
+    {
+      "comment": "You can make alias(as) or change alias(as) as like below",
+      "alter": "users",
+      "manyToManies": [
+        { "table": "users2", "as": "friends", "comment": "users2 is old alias(as) value" },
+        ...
+      ]
+    }
+  ]
+}
+	  </code></pre -->
+  </div>
+</div>
 
-                    <div class="post-description">
-                        <p>
-			GGoons is a IT 
-			<span class="important-text">outsourcing</span> 
-			and 
-			<span class="important-text">coding agency</span> 
-			company.
+<div id="api0" class="container">
+  <div class="row">
+	  <h2>API specification</h2>
+      <p>
+		tg needs information about the api to generate 
+		the expected data and test code for the api test.
+		The api specification of tg is not as strict 
+		and well-organized as the OAS(Open API Specification),
+		it is just a document that defines how to express the following information.
+
+		<ul>
+		  <li>api url</li>
+		  <li>http method</li>
+		  <li>structure of request data</li>
+		  <li>structure of response data</li>
+		  <li>api for user authentication</li>
+		  <li>components</li>
+		  <li>rule for column naming in structure of response body</li>
+		  <li>about mutable test</li>
+		</ul>
+	  </p>
+	  <blockquote>
+		We tried to use OAS(Open API Specification) in tg design time, 
+		but unfortunately OAS does not seem to express enough information required by tg.
+		As a result, tg has inevitably developed tg's own api specification 
+		that can contain all the information tg needs.
+		However, the OAS and tg api specifications are very similar, 
+		and we plan to provide a tool with tg to convert OAS to tg and vice versa.
+		(not yet)
+		<br/>
+		Currently, the file list generated by tg includes openapi.yaml for OAS.
+	  </blockquote>
+	  <pre><code class="json">{
+    ...,
+   "api": {
+     ...
+     "loginApis": [
+       {
+         ...
+       },
+       ...
+     ]
+     ...
+     "queryApis": [
+       {
+         "request": {
+           ...
+         },
+         "response": {
+           ...
+         },
+       },
+       ...
+     ],
+     ...
+     "findApis": [
+       {
+         "request": {
+           ...
+         },
+         "response": {
+           ...
+         },
+       },
+       ...
+     ],
+     ...
+     "mutableApis": [
+       {
+         "request": {
+           ...
+         },
+         "response": {
+           ...
+         },
+         "expects": [
+           ...
+         ]
+       },
+       ...
+     ]
+   }
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="subTable0" class="container">
+  <div class="row">
+	  <h2>Component</h2>
+      <p>
+		Component is the structure for api's request or response body.
+		When defining the request or response body of each api,
+		you can define Component directly, 
+		or define Component separately and reuse it.
+		The Component can contain all or part of the columns of the specified table, 
+		and other special columns such as associative tables or aggregation columns.
+		See <a href="#subTable">here</a> for more details.
+	  </p>
+	  <pre><code class="json">{
+    "components": [
+      {
+        "name": "responseFromProductList",
+        "table": "products",
+        "columns": [
+          "productName",
+          "buyPrice",
+          "pLine(productlines.productLine)",
+          "total(count=orderdetails)",
+          "totalPrice(sum=orderdetails.priceEach)"
+        ]
+      }
+    ],
+}
+	  </code></pre>
+  </div>
+</div>
+
+<div id="api-specification" class="container">
+  <div class="row">
+	<h2>API specification</h2>
+
+    <p>
+		The api information includes global entries that apply to all apis, as follows:
+		<ul>
+		  <li><a href="#api-columnNameCase">Rule for column name</a></li>
+		  <li><a href="#api-authentication">authentication</a></li>
+		  <li><a href="#api-login">login api</a></li>
+		  <li><a href="#api-paginate">paginate</a></li>
+		  <li><a href="#api-order-by">order by</a></li>
+		</ul>
+
+		There are apis for specific purposes, like this:
+
+		<ul>
+		  <li><a href="#query">queryApis</a></li>
+		  <li><a href="#find">findApis</a></li>
+		  <li><a href="#mutable">mutableApis</a></li>
+		</ul>
+		
+		Finally, there is a structure for request and response body.
+		<ul>
+		  <li><a href="#subTable">component</a></li>
+		</ul>
+    </p>
+
+	<div id="api-columnNameCase">
+	<h3>Rule for column name</h3>
+    <p>
+		It's rare for a developer to build an API server from start to finish.
+		Most of them use web frameworks. 
+		Some web frameworks use column names as they are, 
+		and some convert them to camel case or snake case.
+		This attribute is for such a case, 
+		where you can specify which name style column 
+		should use to access the data value read from the api server.
+	</p>
+
+	<h4>column name</h4>
+
+	<table class="table">
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>original(default)</td>
+	    <td>
+			Use the column name as it is.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>camelcase</td>
+	    <td>
+			Convert column names to camel case starting with a lowercase letter.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>Camelcase</td>
+	    <td>
+			Converts column names to camel case starting with an uppercase letter.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>snakecase</td>
+	    <td>
+			Converts column names to snake case beginning with a lowercase letter.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>Snakecase</td>
+	    <td>
+			Converts column names to snake case beginning with an uppercase letter.
+		</td>
+	  </tr>
+	</table>
+	<pre><code class="json">{
+   "api": {
+     ...
+     "columnNameCases": {
+       "column": "camelcase",
+       ...
+     }
+   },
+}
+	</code></pre>
+
+	</div>
+
+	<div id="api-authentication">
+	<h3>authentication</h3>
+    <p>
+		Most api servers only allow access from authorized users.
+		There are two types of user authentication, session and token, 
+		which you can provide to tg in here.
+	</p>
+	<table class="table">
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>by</td>
+	    <td>
+			This property specifies the user authentication method. 
+			You can select either jwt or session.
+			<blockquote>
+				Currently only jwt is possible.
+			</blockquote>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>headers</td>
+	    <td>
+			You can use this attribute to specify how the authentication information 
+			is passed in the http header.
+			As shown in the example below, 
+			'$ {jwt}' indicates where the actual token should be.
+		</td>
+	  </tr>
+	</table>
+
+	<pre><code class="json">{
+   "api": {
+     ...
+     "authentication": {
+       "by": "jwt",
+       "headers": [
+         { "key": "Authorization", "value": "Bearer ${jwt}" }
+       ]
+     },
+   }
+}
+	</code></pre>
+	</div>
+
+	<div id="api-login">
+	<h3>login api</h3>
+    <p>
+		You can specify one or more api addresses for user authentication in here.
+		And also you can specify body of request and response 
+		for user authentication in here.
+	</p>
+
+	<table class="table">
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>url</td>
+	    <td>
+			This is the url for user authentication.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>roles</td>
+	    <td>
+			List all the privileges the user authorized by this address can have, 
+			separated by commas.
+			When api needs a certain permission, 
+			tg looks up the value of this attribute 
+			for the login api to obtain that permission.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>method</td>
+	    <td>
+			There are get and post as HTTP methods and default is post.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>request</td>
+	    <td>
+			Refers to the structure of the request body for user authentication. 
+			Specify the key for username and the key for password here.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>response</td>
+	    <td>
+			Specify the location of the token here 
+			in the response body structure for user authentication.
+		</td>
+	  </tr>
+	</table>
+
+	<pre><code class="json">{
+   "api": {
+     ...
+     "loginApis": [
+       {
+         "url": "/jwt/customer",
+         "roles": "ROLE_CUSTOMER, ROLE_VIP_CUSTOMER",
+         "method": "post",
+         "request": {
+           "username": "username",
+           "password": "password",
+         },
+         "response": {
+           "tokenPath": "jwt.token",
+           "comment": "In this case, the response.body.jwt.token contains a token."
+         }
+       }
+     ]
+     ...
+     "queryApis": [
+       {
+         "request": {
+           "url": "/customers/show",
+           "accessRoles": "ROLE_CUSTOMER"
+         },
+       }
+     ]
+   }
+}
+	</code></pre>
+	</div>
+
+	<div id="api-paginate">
+	<h3>paginate</h3>
+    <p>
+		If the query api on the api server responds by dividing the results by page, 
+		you can specify the relevant information here.
+	</p>
+
+	<table class="table">
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>keyToPageNo</td>
+	    <td>
+			Specify the key used to pass the current query target page number to the api server. 
+			default is 'page-no'.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>keyToNumRows</td>
+	    <td>
+			Specify the key used to specify the number of rows per page here. 
+			default is 'num-rows'.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>numRows</td>
+	    <td>
+			Specify the number of rows per page as number.
+			If this number is more than one, specify it as an array.
+		</td>
+	  </tr>
+	</table>
+
+	<pre><code class="json">{
+   "api": {
+     ...
+     "paginate": {
+       "keyToPageNo": "page-no",
+       "keyToNumRows": "num-rows",
+       "numRows": 20
+     },
+   }
+}
+	</code></pre>
+	</div>
+
+	<div id="api-order-by">
+	<h3>order by</h3>
+    <p>
+		When sorting the results of a query by a specific column value, 
+		this information needs to be passed to the api server, 
+		which can be specified here.
+	</p>
+
+	<table class="table">
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>in</td>
+	    <td>
+			Determines where 'order by' information is sent.
+			It can have a value of one of path, query, header, or body.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>key</td>
+	    <td>
+			Specify the key name for 'order by' here.
+			default is 'order-by'.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>value</td>
+	    <td>
+			The format of the value for key.
+			default is '&lt;c&gt; &lt;order&gt;' 
+			where '&lt;c&gt;' means column name and 
+			'&lt;order&gt;' means the value of order attribute below.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>order</td>
+	    <td>
+			There are two types of sorts, ascending (asc) and descending (desc).
+			Here you specify the exact words that mean each.
+			Ascending order is 'asc' by default and descending order is 'desc'.
+		</td>
+	  </tr>
+	</table>
+
+	<pre><code class="json">{
+   "api": {
+     ...
+     "orderBy": {
+       "in": "query",
+       "key": "order-by",
+       "value": "&lt;c&gt; &lt;order&gt;",
+       "order": {
+         "asc": "asc",
+         "desc": "desc"
+       },
+     },
+   }
+}
+	</code></pre>
+	</div>
+
+  </div>
+</div>
+
+<div id="query" class="container">
+  <div class="row">
+	  <h2>Query api</h2>
+      <p>
+		API information is required to generate test code for testing api server.
+		An api that returns one or more rows is called a query api.
+		The structures for query api include request and response.
+	  </p>
+
+    <div id="query-request">
+	  <h3>request</h3>
+		The request in query api has the following elements:
+	<table class="table">
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>url</td>
+	    <td>
+			means the url of api.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>method</td>
+	    <td>
+			It means HTTP method of api. 
+			In query api, default is "get".
+		</td>
+	  </tr>
+	  <tr>
+	    <td>accessRoles</td>
+	    <td>
+			If the api is only available to users with specific privileges, 
+			list the authorized user privileges, separated by commas.
+			<pre><code class="json">{
+  "request": {
+    "url": "/customers/list",
+    "accessRoles": "CUSTOMER_MANAGER, ADMIN"
+    ...
+  }
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>concurrentRequests</td>
+	    <td>
+			Specify the number of instances to run the query test simultaneously.
+			As many test requests as specified here are simultaneously sent to the api server.
+			<pre><code class="json">{
+  "request": {
+    "url": "/customers/list",
+    "concurrentRequests": 10,
+    ...
+  }
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>paginate</td>
+	    <td>
+			Specify true if the query results will be returned in pages.
+			When this property's value is true, 
+			the test code is generated to advance page by page.
+			<pre><code class="json">{
+  "request": {
+    "url": "/customers/list",
+    "paginate": true,
+    ...
+  }
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>params</td>
+	    <td>
+			A list of allowable arguments for api, described in more detail below.
+		</td>
+	  </tr>
+	</table>
+	<pre><code class="json">{
+    "elements": [
+      {
+        "table": "customers",
+        "queryApis": [
+          {
+            "request": {
+              "url": "/customers/list",
+              "method": "get",
+              "paginate": true,
+              "params": [
+                ...
+              ]
+            }
+          },
+          ...
+        ]
+      }
+}
+	</code></pre>
+
+    <div id="query-request-params">
+	  <h4>request params</h4>
+	  <p>
+		This is a list of all the arguments you can pass to api.
+		The api server assumes that 
+		it will take all or part of the arguments listed here 
+		and return the appropriate result accordingly.
+		Each argument has the following elements:
+	  </p>
+
+	<table class="table">
+	  <tr>
+	    <th>Attribute</th>
+	    <th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>name</td>
+	    <td>
+			You must specify exactly the argument names that 
+			the api server expects.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>column</td>
+	    <td>
+			If this argument refers to a table column 
+			and the preceding name entry is not the same as the column name, 
+			you must specify the exact column name here.
+			If column is not a query table column, 
+			you can specify that path as follows:
+			(In this case, however, each table must have a proper relationship)
+			<pre><code class="json">{
+    "elements": [
+      {
+        "table": "customers",
+        "queryApis": [
+          {
+            "request": {
+              "url": "/customers/statistics",
+              "method": "get",
+              "params": [
+                { "name": "paymentDate", "column": "customers.payments.paymentDate", 
+                  "in": "query", "op": "between" 
+                }
+              ]
+            }
+          },
+          ...
+        ]
+      }
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>in</td>
+	    <td>
+			This property specifies where the argument should be passed.
+			The passing position of the argument is:
+			<ul>
+				<li>path
+					<p>Passed in the path part of url.
+					</p>
+				</li>
+				<li>query
+					<p>Passed in the query part of url.
+					</p>
+				</li>
+				<li>head
+					<p>It is passed to the head of request.
+					</p>
+				</li>
+			</ul>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>op</td>
+	    <td>
+			This attribute represents the operator that 
+			the api server uses to reflect the value of this param in query.
+			The available operators are:
+			<blockquote>
+				Tg is not yet supported if an operator other than the ones below is used.
+				If the following operators do not fully express your api server's operation, 
+				you should use the <a href="#query-response-filter">custom filter</a> function.
+				<ul>
+					<li>relational operators(=, !=, &lt;, &lt;=, &gt;, &gt;=)</li>
+					<li>like, fast like</li>
+					<li>in</li>
+					<li>between</li>
+				</ul>
+				The like operator refers to the SQL "LIKE '%val%'" operation, 
+				and the fast like operator refers to the SQL "LIKE 'val%'" operation.
+				As is known, the former is a table scan and the latter is an index scan.
+			</blockquote>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>required</td>
+	    <td>
+			Set this property to true 
+			if this param value should always be included in the request.
+			If this property is true, 
+			this param value is always included in all test params combinations.
+			<pre><code class="json">{
+  ...
+  "params": [
+     { "name": "productName", "in": "query", "op": "fast like", "required": true },
+	 ...
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>class</td>
+	    <td>
+			Some params must be all or nothing in the request.
+			Use this property in such cases.
+			That is, params belonging to the same class are 
+			always included in the request or not all together.
+			<blockquote>
+				However, this attribute has a lower priority 
+					than the required attribute.
+				Therefore, if the required attribute is true,
+				the class attribute is ignored.
+			</blockquote>
+			<pre><code class="json">{
+  ...
+  "params": [
+     { "name": "productCode", "in": "query", "op": "=", "class": "fk" },
+     { "name": "productName", "in": "query", "op": "=", "class": "fk" },
+	 ...
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>value</td>
+	    <td>
+			If the value of the param must be fixed to a certain constant value,
+			you can specify that constant value here.
+			<pre><code class="json">{
+  ...
+  "params": [
+     { "name": "language", "in": "query", "op": "=", "value": "en" },
+	 ...
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>default</td>
+	    <td>
+			If the default attribute is used with the value attribute, 
+			this param is not passed to the api server.
+			However, the result returned by the api server assumes that 
+			the value of the key column that this param means 
+			reflects the value specified as the value of the attribute value.
+			So in this case, 
+			tg will use the value given in the attribute value 
+			to produce the expected value for the test on the api server.
+			<pre><code class="json">{
+  ...
+  "params": [
+     { "name": "language", "in": "query", "op": "=", "value": "en", "default": true },
+	 ...
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>select</td>
+	    <td>
+			This property is used when 
+			the user selects one of a predefined number of values 
+			and the specific value for that value affects the query results.
+			<pre><code class="json">{
+  ...
+  "params": [
+     { 
+       "name": "order_date", "in": "query", "op": "between",
+       "select": {
+         "1 weeks": ["-7d", "0"],
+         "3 weeks": ["-21d", "0"],
+         "1 months": ["-1m", "0"]
+       }
+     },
+	 ...
+}
+			</code></pre>
+			The example above assumes a query for the order history 
+			for the last week, three weeks or one month.
+			Where the key values are user selectable values that 
+			will be passed to the api server.
+			And data values refer to the values reflected in the query 
+			when the key value is passed.
+			For example, 
+			suppose the user selects '3 weeks' above. 
+			'order_date=3 weeks' will be delivered to the api server 
+			and 'order_date between 21.days.ago and today' 
+			will be used to calculate the expected value.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>table</td>
+	    <td>
+			If this param value is used for many-to-many table join, 
+			the name of many-to-many table must be specified as this attribute.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>reverse</td>
+	    <td>
+			If the param values are used for many-to-many joins between the same tables, 
+			the join direction can be controlled with this property.
+			For example, 
+			the following query will query all customers 
+			who have selected a given customer as a friend:
+			<pre><code class="json">{
+  ...
+  "params": [
+     { 
+       "name": "friends4customer", "table": "friends", "in": "query", 
+       "op": "join"
+     },
+	 ...
+}
+			</code></pre>
+			The following assumes that all the customers selected as a friend are queried.
+			<pre><code class="json">{
+  ...
+  "params": [
+     { 
+       "name": "friendsOfCustomer", "table": "friends", "in": "query", 
+       "op": "join", "reverse": true
+     },
+	 ...
+}
+			</code></pre>
+		</td>
+	  </tr>
+	</table>
+
+    <p>
+		In some cases, 
+		using all the methods prepared by tg may not be sufficient 
+		to express the results of the api server.
+		In this case, you can use your own filter 
+		to adjust the expectation that the api server should return.
+		See <a href="#query-response-filter">response.filter</a>.
+    </p>
+	</div> <!-- for query-request-params -->
+	</div> <!-- for query-request -->
+
+    <div id="query-response">
+	  <h3>response</h3>
+    <p>
+		The response structure of query api is defined here. 
+		The response of query api has the following elements:
+    </p>
+
+	  <h4>response.body</h4>
+		<p>
+			If body refers to a specific table, 
+			specify that table name.
+		</p>
+		<pre><code class="json">{
+    "body": "tableName"
+}
+		</code></pre>
+			Or if the body reuses a particular <a href="#subTable">Component</a>, 
+			specify that Component name.
+		<pre><code class="json">{
+    "body": "componentName"
+}
+		</code></pre>
+
+		<p>
+			In fact, the response body is a <a href="#querySubTable">Component</a> 
+			that is automatically named.
+			One difference is that 
+			you can specify columns directly without the 'columns' key:
+		</p>
+		<pre><code class="json">{
+  "body": {
+    "cname": ".",
+    "anyname": "columnName",
+	...
+  }
+}
+		</code></pre>
+		<p>
+			As above, without the 'columns' attribute, 
+			all key-value pairs are recognized as columns.
+			However, to use all the properties of the Component,
+			you must use the 'columns' property as follows:
+		</p>
+		<pre><code class="json">{
+    "body": {
+      "table": "customers",
+      "paginate": true,
+      "orderableColumns": "city",
+      "columns": {
+        "cname": ".",
+        "anyname": "columnName",
+        ...
+      },
+    }
+}
+		</code></pre>
+
+    <div id="query-response-filter">
+	  <h4>response.filter</h4>
+		<p>
+			If the expected value generated by tg is not appropriate for the api test, 
+			you can filter the expected value generated by tg with your code.
+			It compares the expected value passed by the user-installed filter 
+			with the response value of the real api server.
+			<br/>
+			filter has the following attributes:
+		</p>
+		<img class="zoom" src="../img/response.filter.png" class="center"/>
+		<br/><br/>
+
+		<table class="table">
+			<tr>
+				<th>Attribute</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>
+					The name of the filter, 
+					which must be the unique name of all filters.
+				</td>
+			</tr>
+			<tr>
+				<td>file</td>
+				<td>
+					Specify the relative position of the filter 
+					in the location of the api specification file.
+				</td>
+			</tr>
+			<tr>
+				<td>functionName</td>
+				<td>
+					Specify the name of the filter function in file.
+				</td>
+			</tr>
+		</table>
+		<pre><code class="json">{
+    "filter": {
+      "name": "customerPayment",
+      "file": "./js/customer_payments.js",
+      "functionName": "filter4customer_payments"
+    }
+}
+		</code></pre>
+	</div> <!-- for query-response-filter -->
+	</div> <!-- for query-response -->
+
+  </div>
+</div>
+
+<div id="find" class="container">
+  <div class="row">
+	  <h2>find api</h2>
+		<p>
+			find api refers to an api that reads only one row of a specific table. 
+			The argument passed is primarily the primary key.
+			All elements of find api are the same as query api.
+			see <a href="#query">here</a>.
+		</p>
+		<pre><code class="json">{  ...
+          "table": "customers",
+          "findApis": [
+            {
+              "request": {
+                "url": "/customers/find/:customerNumber",
+                "accessRoles": "ROLE_CUSTOMER, ROLE_ADMIN",
+                "params": [
+                  { "name": "customerNumber", "in": "path", "op":"=" }
+                ]
+              },
+              "response": {
+                "body": "customers"
+              }
+            }
+          ],
+  ...
+}
+		</code></pre>
+  </div>
+</div>
+
+<div id="mutable" class="container">
+  <div class="row">
+	  <h2>mutable api</h2>
+		<p>
+			mutable api means api that 
+			causes changes to the DB such as create, update or delete.
+			mutable api has the following kinds of elements:
+		</p>
+
+	<div id="mutable-request">
+	  <h3>request</h3>
+		<p>
+			mutable api's request has the following elements:
+		</p>
+
+		<table class="table">
+			<tr>
+				<th>Attribute</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>testdataUrl</td>
+				<td>
+					This item is used to reuse test data used in other mutable tests.
+					For example, ordering a product in an internet shopping mall 
+					goes through several processes, 
+					starting with the creation of an order table.
+					Afterwards, all deliveries, 
+					purchase decisions or returns are made by the order table.
+					Use this item to share test data before doing anything further.
+					<pre><code class="json">{
+  "request": {
+    "testdataUrl": "/order_products/save",
+    "url": "/order_products/paymented/:id", 
+    "params": [
+      { "name": "id", "in": "path", "value": "${.id}"}
+    ],
+    ...
+}
+					</code></pre>
+					In the example above, 
+					the ':id' portion of url is replaced with the '${.Id}' value of params, 
+					which is the order_products.id used in "/order_products/save".
+				</td>
+			</tr>
+			<tr>
+				<td>url</td>
+				<td>
+					means the url of api.
+				</td>
+			</tr>
+			<tr>
+				<td>method</td>
+				<td>
+					It means HTTP method of api.
+					In mutable api, default is "post".
+				</td>
+			</tr>
+			<tr>
+				<td>numOfTest</td>
+				<td>
+					This is for testing create and update together in api.
+					Therefore, the test data for this api is 
+					generated with the same primary key as the number specified here.
+					The first data is used for create and subsequent data is used for update.
+				</td>
+			</tr>
+			<tr>
+				<td>accessRoles</td>
+				<td>
+					It has the same meaning as accessRoles in the query api request.
+					See <a href="#query">here</a>.
+				</td>
+			</tr>
+			<tr>
+				<td>params</td>
+				<td>
+					You can also use params with mutable apis, 
+					but it doesn't mean as much as query apis.
+					You can use it just for the 
+					purpose of passing additional arguments.
+				</td>
+			</tr>
+			<tr>
+				<td>body</td>
+				<td>
+					You can specify the request body and 
+					specify a table name or 
+					define your own columns and associated table structure.
+					This part is basically similar to the response body of query api.
+					See <a href="#query-response">here</a>.
+				</td>
+			</tr>
+		</table>
+
+	</div> <!-- for mutable-request -->
+
+	<div id="mutable-response">
+	  <h3>response</h3>
+		<p>
+			The response has a body, 
+			which is basically similar to the response body of the query api.
+			See <a href="#query-response-body">here</a>.
+			However, in addition to the mutable api's response body, 
+			you can specify the following format simply 
+			for the success or failure of the request.
+		</p>
+		<pre><code class="json">{
+  "body": "resultPath: result, 'ok', 'fail'"
+}
+		</code></pre>
+			If body begins with "resultPath:" 
+			and three items separated by commas are specified, 
+			tg interprets them as:
+		<table class="table">
+			<tr>
+				<th>Position</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>First</td>
+				<td>
+					The javascript format of the location 
+					of the request result in the HTTP response body.
+					In other words, 
+					if the result is wrapped in more than one Object, 
+					the path is recognized as separated by dots(".").
+				</td>
+			</tr>
+			<tr>
+				<td>Second</td>
+				<td>
+					The value means success.
+				</td>
+			</tr>
+			<tr>
+				<td>Third</td>
+				<td>
+					The value means failure.
+				</td>
+			</tr>
+		</table>
+		<p>
+			Based on this information, 
+			tg determines whether the request to the mutable api succeeded or failed.
+		</p>
+		<blockquote>
+			tg does not treat the response body of the mutable api for comparison.
+			The response is literally the response from the server, 
+			and tg treats the current state of the database as the subject of verification, 
+			not the response from the server.
+		</blockquote>
+
+	</div> <!-- for mutable-response -->
+
+	<div id="mutable-expects">
+	  <h3>expects</h3>
+      <p>
+		This information shows the changed DB status when the mutable api is executed.
+		That is, 
+		tg generates random data according to the structure specified 
+		as request body for the test of the mutable api server, 
+		passes it to the api server, and if the response is normal, 
+		reads the tables specified in expects one by one and validate it.
+		<br/><br/>
+		expects must be specified as an array, 
+		where each element has the following elements:
+      </p>
+
+		<table class="table">
+			<tr>
+				<th>Attribute</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>action</td>
+				<td>
+					It means mutable action and can have create, update or delete.
+				</td>
+			</tr>
+			<tr>
+				<td>$ref</td>
+				<td>
+					You can specify the name of the table targeted by the action 
+					or point to the request body structure by "${request.body}".
+					<pre><code class="json">{
+  "$ref": "tableName"
+}
+					</code></pre>
+					<pre><code class="json">{
+  "$ref": "${request.body}"
+}
+					</code></pre>
+				</td>
+			</tr>
+			<tr>
+				<td>columns</td>
+				<td>
+					If $ref is a table, 
+					specifies the specified columns and expected values of the table.
+					The expected value can be a constant, 
+					or it can be a specific column value in the request body, 
+					as in the following example:
+				</td>
+			</tr>
+			<tr>
+				<td>queryRequests</td>
+				<td>
+					Here you need to specify how to read the table 
+					changed by the mutable action.
+					The format is <b>"tableName": "url"</b>.
+					For example, in the following case, 
+					tg first sends a request to the api server and then checks 
+					whether the state column value in table order_products is 
+					modified by "delibery" and than the carrier and 
+					tracking_number column values are the same 
+					as those in the request body.
+					<pre><code class="json">{
+  "expects": [
+    {
+      "action": "update",
+      "$ref": "order_products",
+      "columns": {
+        "state": "'delibery'",
+        "carrier": "${request.body.carrier}",
+        "tracking_number": "${request.body.tracking_number}"
+      },
+      "queryRequests": {
+        "order_products": "/order_products/find/${.id}"
+      }
+    }
+  ]
+}
+					</code></pre>
+				</td>
+			</tr>
+		</table>
+	</div> <!-- for mutable-expects -->
+  </div>
+</div>
+
+<div id="subTable" class="container">
+  <div class="row">
+	<h2>Component</h2>
+ 		<p>
+			Sometimes the request or response body of an api 
+			has exactly the same structure as a DB table, 
+			but in many cases it does not.
+			As such, 
+			when a new structure is needed in addition to the DB table, 
+			the Component is used.
+			Component allows users to define new structures that are not in the schema.
+			Components include regular Component and 
+			Query api-only Component that are available only in Query apis.
+			First of all, 
+			let's take a look at general Component 
+			and then talk about Component for Query api.
+		</p>
+		<pre><code class="json">{
+  "components": [
+    {
+      "name": "ResponseForProductFind",
+      "table": "products",
+      "columns": {
+        "cname": ".",
+        "anyname": "columnName",
+      }
+	...
+    }
+  ]
+}
+		</code></pre>
+		<p>
+			As shown in the example above, 
+			the Component has the following attributes:
+		</p>
+		
+		<table class="table">
+			<tr>
+				<th>Attribute</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>
+					This property means the name of the Component.
+					It must not be a duplicate of another table name 
+					or Component name.
+				</td>
+			</tr>
+			<tr>
+				<td>table</td>
+				<td>
+					This property represents the base table name of the Component.
+					Mostly this table is the table to 
+					which the columns given in the columns below belong.
+					If you need more than one table column in the columns attribute, 
+					assign the most central table name to this attribute.
+				</td>
+			</tr>
+			<tr>
+				<td>columns</td>
+				<td>
+					This property represents the structure of the actual Component.
+				</td>
+			</tr>
+		</table>
+
+    <div id="subTable-columns">
+	  <h2>columns</h2>
+ 		<p>
+			You can define the structure of the actual Component 
+			in the columns property of the Component.
+			This property can be specified as a String, Array, or Object type. 
+			Let's look at the easiest String type first.
+			To specify all columns of a table, use:
+ 		</p>
+		<pre><code class="json">{
+      "columns": "*"
+}
+		</code></pre>
+			Or you can specify only certain column names.
+		<pre><code class="json">{
+      "columns": "customerNumber, customerName, city, country"
+}
+		</code></pre>
+
+			Alternatively, another table column can be specified 
+			with connection information.
+		<pre><code class="json">{
+      "columns":
+        "sellerName(employees.lastName), officeCity(employees.offices.city)"
+}
+		</code></pre>
+			In the example above, 'sellerName' and 'officeCity'
+			should be the values that the api server outputs or expects.
+			(In SQL it can be a column specified by as)
+			<br/><br/>
+
+			An aggregation column can also be specified.
+			In the example below, 
+			countOfPayments and amounts are the aggregation column names passed to the body,
+			'count=payments' is the count value for the payments table, and 
+			'sum=payments.amount' is the sum value for the amount column of the payments table.
 			
-			If you send 
-			paper for you want to develop
-			or
-			<span class="important-text"><a href="#reference">specification</a></span>
-			of the each page of system that you want to develop to ggoons,
-			ggoons will <span class="important-text">provide</span> 
-			backend and frontend 
-			<span class="important-text">source code</span> 
-			that implements this paper or specification
-			to 
-			<span class="important-text">you</span>.
+		<pre><code class="json">{
+      "columns":
+        "countOfPayments(count=payments), amounts(sum=payments.amount)"
+}
+		</code></pre>
+			You can also specify a concat column that 
+			combines the values of one or more columns.
 
-			<br/>
+		<pre><code class="json">{
+      "columns": "customerNumber, name(concat=firstName, ' ', lastName)"
+}
+		</code></pre>
+
+		Alternatively, custom column can also be specified.
+		<pre><code class="json">{
+      "columns":
+        "customizedName(function=../lib/custom.custom_name)"
+}</code></pre>
+
+		In the example above, 
+		'../lib/custom' means relative to where the tg schema is located 
+		and must have a .rb (ruby source file) extension.
+		In this case, tg looks for the file '../lib/custom.rb'.
+		This file should follow the conventions for its path and module configuration, 
+		in which case custom.rb should be configured as follows:
+		
+		<pre><code class="ruby">
+module Lib
+  class Custom
+    class &lt;&lt; self
+      def custom_name(map, t, rownum)
+         ...
+      end
+    end
+  end
+ end
+end
+		</code></pre>
+
+		The parameters passed to the function are fixed, 
+		and their names and meanings are as follows:
+		<table class="table">
+			<tr>
+				<th>Parameter</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>map</td>
+				<td>
+					map means the entire testdata.
+					Testdata for a specific table can be accessed as table.name.
+				</td>
+			</tr>
+			<tr>
+				<td>t</td>
+				<td>
+					This is the table of the current Component.
+					To get the test data for this table:
+					<pre><code class="ruby">
+    rows = map[t.name]
+					</code></pre>
+				</td>
+			</tr>
+			<tr>
+				<td>rownum</td>
+				<td>
+					This is the specific rownum of the current table, i.e. attribute t.
+					To get a specific row of this table:
+
+					<pre><code class="ruby">
+    rows = map[t.name]
+    row = rows.at(rownum)
+					</code></pre>
+					Now that we have a specific row of a specific table, 
+					each column value can be found as the corresponding column name.
+					<pre><code class="ruby">
+    rows = map[t.name]
+    row = rows.at(rownum)
+    firstName = row['first_name']
+    lastName = row['last_name']
+    # concat first_name and last_name
+    firstName + ' ' + lastName
+					</code></pre>
+				</td>
+			</tr>
+		</table>
+
+		Array type is similarly available as:
+		<pre><code class="json">{
+    ...
+      "columns": [
+        "customerNumber",
+        "customerName",
+        "city",
+        "country",
+        "countOfPayments(count=payments)",
+        "amounts(sum=payments.amount)"
+        "name(concat=contactFirstName, ' ', contactLastName)",
+        "sellerName(employees.lastName)",
+        "officeCity(employees.offices.city)",
+        "customizedName(function=../lib/custom.custom_name)"
+      ]
+    ...
+}
+		</code></pre>
+		
+		The Object type is the most powerful feature and 
+		can define almost any structure.
+		<pre><code class="json">{
+    ...
+      "columns": {
+        "customerNumber": ".",
+        "customerName": ".",
+        "city": ".",
+        "country": ".",
+        "countOfPayments: "count=payments",
+        "amounts: "sum=payments.amount"
+        "name: "concat=contactFirstName, ' ', contactLastName",
+        "sellerName: "employees.lastName",
+        "officeCity": "employees.offices.city",
+        "customizedName: "function=../lib/custom.custom_name"
+      }
+    ...
+}
+		</code></pre>
+		As shown above, 
+		the name of the api server expected should be in the key part on the left, 
+		and the column name of the table in the value part on the right.
+		If the name on the left exactly means a column name, 
+		specify only "." on the right.
+		However, 
+		if the name on the left is not an exact column name,
+		specify the correct column name on the right.
+		In addition, you can specify any structure in Object as follows:
+
+		<pre><code class="json">{
+    ...
+      "columns": {
+          "customerNumber": ".",
+          "__xtra__": {
+            "Amount": "sum=payments.amount"
+          },
+          "payments": { 
+            "paymentDate": "paymentDate" 
+          }
+      }
+    ...
+}
+		</code></pre>
+		In the example above, 
+		"__ xtra __" represents an arbitrary structure in body that is not a table.
+		'payments' represents the case where a payments table is included.
+		If the key value that leads to the new Object is the table name, 
+		the Object is recognized as the columns of the table,
+		if it is not a table name, 
+		it is assumed to be the columns of the current table.
+		If you want to represent a table with a different name 
+		than the table name, 
+		use the form 'someName(table=tableName)' as follows:
 			
-                        </p>
-						<h4>Available frameworks</h4>
-            <table class="pure-table">
-				<thead>
-					<tr>
-						<th>Type</th>
-						<th>Framework</th>
-						<th>DBMS</th>
-						<th>Misc</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Backend</td>
-						<td>Springboot 2.0</td>
-						<td>MySQL, mongoDB, external-system</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Backend</td>
-						<td>Express 4.x for javascript</td>
-						<td>MySQL, mongoDB, external-system</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Backend</td>
-						<td>Express 4.x for typescript</td>
-						<td>MySQL, mongoDB, external-system</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Frontend</td>
-						<td>Angular 7.x</td>
-						<td></td>
-						<td>
-							<a href="https://material.angular.io/">material design</a>,
-							<a href="https://ngrx.io/">ngrx</a>,
-							<a href="https://ngxs.gitbook.io/ngxs">ngxs</a>
-						</td>
-					</tr>
-					<tr>
-						<td>Frontend</td>
-						<td>Ionic 4.x</td>
-						<td></td>
-						<td>
-							<a href="https://ngrx.io/">ngrx</a>,
-							<a href="https://ngxs.gitbook.io/ngxs">ngxs</a>
-						</td>
-					</tr>
-				</tbody>
-            </table>
-                    </div>
-                </section>
-            </div>
-
-            <div class="posts" id="price">
-                <h1 class="content-subhead"></h1>
-
-                <section class="post">
-                    <header class="post-header">
-                        <h2 class="post-title">Price</h2>
-                    </header>
-
-                    <div class="post-description">
-                        <p>
-				Each services and prices is as below.
-				In the below table, n% mean is the percent of total price to development fee without tax.
-				For example, if total price to development fee is $10,000
-				then price of coding service is 20% of $10,000 which is $2,000.
-                        </p>
-            <table class="pure-table center">
-				<thead>
-					<tr>
-						<th>Service</th>
-						<th>Price</th>
-						<th>Misc</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>coding</td>
-						<td>20%</td>
-						<td>required design paper
-							<br/>
-							(database schema + specification of the each pages)
-						</td>
-					</tr>
-					<tr>
-						<td>system design + coding</td>
-						<td>40%</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>coding + test</td>
-						<td>40%</td>
-						<td>
-							In coding service, included basic unit test codes.
-							<br/>
-							However test service is more expert for test.
-							<br/>
-							It develop various test case to developed application.
-						</td>
-					</tr>
-					<tr>
-						<td>coding + make up</td>
-						<td>40%</td>
-						<td>make up = web design + CSS.</td>
-					</tr>
-					<tr>
-						<td>system design + coding + make up</td>
-						<td>60%</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>system design + coding + test</td>
-						<td>60%</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>system design + coding + make up + test</td>
-						<td>80%</td>
-						<td>
-						</td>
-					</tr>
-				</tbody>
-            </table>
-
-                    </div>
-                </section>
-			</div>
-
-            <div class="posts" id="process">
-                <h1 class="content-subhead"></h1>
-
-                <section class="post">
-                    <header class="post-header">
-                        <h2 class="post-title">How can I use</h2>
-                    </header>
-
-                    <div class="post-description">
-                        <p>
-			You can use ggoons coding service 
-			with system design service or
-			without system design service.
-                        </p>
-			<h2>With system design service</h2>
-                        <p>
-				First of all, you should make document about what you want a to develop.
-				There is no rule for this document.
-				Just describe the desired system freely.
-				After that, send this document to 
-				<strong>ggoon@ggoons.com</strong>
-				with how much is your budget to this project.
-				GGoons will read this email and document as soon as possible.
-				After that, ggoons will reply this email to you
-				to negotiate development system volumn and final prices.
-                        </p>
-						<br/>
-
-			<h2>Without system design service</h2>
-                        <p>
-				In this case, you should send system design files such as 
-				database schema and specifications for each pages in development system.
-				So, please send system design files with how much is expected or fixed your budget
-				to <strong>ggoon@ggoons.com</strong>.
-				GGoons will read this email and system design files as soon as possible.
-				After that, ggoons will reply this email to you
-				to negotiate final prices.
-                        </p>
-						<br/>
-
-			<h2>Contract fee</h2>
-			After make contract with ggoons to use ggoons services, 
-			You should deposit 10% of total development fee as contract fee to ggoons account.
-			GGoons will start work after confirm contract fee is deposited.
-			So, please aware that after ggoons start work,
-			the 
-			<span class="important-text">down payment deposited</span>
-			by the user will 
-			<span class="important-text">not be returned</span>.
-						<br/>
-			
-			<h2>Attention please</h2>
-                        <p>
-				Your request will be rejected
-				if your budget is too low to develop your system.
-                        </p>
-                    </div>
-                </section>
-			</div>
-
-            <div class="posts" id="samples">
-                <h1 class="content-subhead"></h1>
-
-                <section class="post">
-                    <header class="post-header">
-                        <h2 class="post-title">Samples</h2>
-                    </header>
-
-                    <div class="post-description">
-                        <p>
-				Samples below is the source codes for 
-				various frameworks generated by ggoons.
-				And database for all samples are 
-				<a href="http://www.mysqltutorial.org/mysql-sample-database.aspx">classicmodels</a> 
-				which is one of public database for MySQL.
-				These sample codes show pattern for result of using only coding services in ggoons.
-                        </p>
-            <table class="pure-table center">
-				<thead>
-					<tr>
-						<th>Type</th>
-						<th>Framework</th>
-						<th>DBMS</th>
-						<th>Github</th>
-						<th>Misc</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Backend</td>
-						<td>Springboot</td>
-						<td>MySQL</td>
-						<td><a href="https://github.com/ggoons/classicmodels-springboot-mysql">springboot-mysql</a></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Backend</td>
-						<td>Springboot</td>
-						<td>mongoDB</td>
-						<td><a href="https://github.com/ggoons/classicmodels-springboot-mongodb">springboot-mongodb</a></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Backend</td>
-						<td>express for javascript</td>
-						<td>MySQL</td>
-						<td><a href="https://github.com/ggoons/classicmodels-expressjs-mysql">expressjs-mysql</a></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Backend</td>
-						<td>express for javascript</td>
-						<td>mongoDB</td>
-						<td><a href="https://github.com/ggoons/classicmodels-expressjs-mongodb">expressjs-mongodb</a></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Backend</td>
-						<td>express for typescript</td>
-						<td>MySQL</td>
-						<td><a href="https://github.com/ggoons/classicmodels-expressts-mysql">expressts-mysql</a></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Backend</td>
-						<td>express for typescript</td>
-						<td>mongoDB</td>
-						<td><a href="https://github.com/ggoons/classicmodels-expressts-mongodb">expressts-mongodb</a></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Frontend</td>
-						<td>Angular</td>
-						<td></td>
-						<td><a href="https://github.com/ggoons/classicmodels-ng-ngrx">angular-ngrx</a></td>
-						<td><a href="https://ngrx.io/">NGRX</a></td>
-					</tr>
-					<tr>
-						<td>Frontend</td>
-						<td>Angular</td>
-						<td></td>
-						<td><a href="https://github.com/ggoons/classicmodels-ng-ngxs">angular-ngxs</a></td>
-						<td><a href="https://ngxs.gitbook.io/ngxs">NGXS</a></td>
-					</tr>
-					<tr>
-						<td>Frontend</td>
-						<td>Angular</td>
-						<td></td>
-						<td><a href="https://github.com/ggoons/classicmodels-ng">angular</a></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Frontend</td>
-						<td>Ionic</td>
-						<td></td>
-						<td><a href="https://github.com/ggoons/classicmodels-ionic-ngrx">ionic-ngrx</a></td>
-						<td><a href="https://ngrx.io/">NGRX</a></td>
-					</tr>
-					<tr>
-						<td>Frontend</td>
-						<td>Ionic</td>
-						<td></td>
-						<td><a href="https://github.com/ggoons/classicmodels-ionic-ngxs">ionic-ngxs</a></td>
-						<td><a href="https://ngxs.gitbook.io/ngxs">NGXS</a></td>
-					</tr>
-					<tr>
-						<td>Frontend</td>
-						<td>Ionic</td>
-						<td></td>
-						<td><a href="https://github.com/ggoons/classicmodels-ionic">ionic</a></td>
-						<td></td>
-					</tr>
-				</tbody>
-            </table>
-                    </div>
-                </section>
-			</div>
-
-			<br/>
-			<br/>
-			<br/>
-
-        </div>
-    </div>
+		<pre><code class="json">{
+    ...
+      "columns": {
+        "customerNumber": ".",
+        "someNameOfPayment(table=payments)": { 
+          "paymentDate": "paymentDate" 
+        }
+      }
+    ...
+}
+		</code></pre>
+   </div>
+ </div>
 </div>
 
 
+<div id="querySubTable" class="container">
+  <div class="row">
+	<h2>Component for Query api</h2>
+    <p>
+		When specifying a Component, 
+		specifying the "for" attribute as "query" makes it a Component for query api.
+    </p>
+	<pre><code class="json">{
+  ...
+    "components": [
+      {
+        "for": "query",
+        "name": "responseFromProductList",
+        "table": "products",
+        "columns": [
+          "productName",
+          "buyPrice",
+          "pLine(productlines.productLine)",
+          "total(count=orderdetails)",
+          "totalPrice(sum=orderdetails.priceEach)"
+        ]
+      },
+      ...
+    ]
+  ...
+}
+	</code></pre>
+    <p>
+		Component for Query API has the following functions 
+		in addition to general <a href="#subTable">Component</a> functions.
+    </p>
+		<table class="table">
+			<tr>
+				<th>Attribute</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>paginate</td>
+				<td>
+					Set this property to true when the query api has page controls. 
+					Tg will then generate code to query and assert more than one page.
+					<pre><code class="json">{
+  ...
+        "paginate": true,
+  ...
+}					</code></pre>
+				</td>
+			</tr>
+			<tr>
+				<td>groupBy</td>
+				<td>
+					You can specify one or more group by columns. 
+					If this attribute is specified, 
+					tg will produce the expected result of
+					grouping by the column value specified here.
+					<pre><code class="json">{
+  ...
+        "groupBy": [
+          "customerNumber",
+          "payments.paymentDate(by=ym, format=%Y-%m)"
+        ],
+  ...
+}					</code></pre>
+					As shown in the example above, 
+					if the group by column is in the associated table, 
+					the path must be specified together.
+					Also, if this column is a date type and 
+					you want to specify group by in year or month, see below.
 
+					<table class="table">
+						<tr>
+							<th>by</th>
+							<th>Mean</th>
+						</tr>
+						<tr>
+							<td>y</td>
+							<td>
+								Only the year value of the column value is used for group by.
+								In this case, default format is '%Y'.
+							</td>
+						</tr>
+						<tr>
+							<td>ym</td>
+							<td>
+								Only the year and month value of the column value is used for group by.
+								In this case, default format is '%Y-%m'.
+							</td>
+						</tr>
+						<tr>
+							<td>ymd</td>
+							<td>
+								Only the year, month and date value of the column value is used for group by.
+								In this case, default format is '%Y-%m-%d'.
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>orderableColumns</td>
+				<td>
+					If the api server has the ability to sort by specific column values, 
+					specify those columns here. 
+					Tg will then prepare the expected values sorted by 
+					the corresponding column values, 
+					then generate code to assert the observed and expected values.
+
+					<pre><code class="json">{
+  ...
+        "orderableColumns": "customerName, city",
+  ...
+}					</code></pre>
+				</td>
+			</tr>
+		</table>
+
+		Here is an example of their use:
+		<pre><code class="json">{
+  ...
+    "components": [
+      {
+        "for": "query",
+        "name": "customerStatistics",
+        "table": "customers",
+        "orderableColumns": "customerName, city",
+        "groupBy": [
+          "customerNumber",
+          "payments.paymentDate(by=ym, format=%Y-%m)"
+        ],
+        "paginate": true,
+        "columns": 
+          "customerName, city, countOfPayments(count=payments), amounts(sum=payments.amount)"
+      },
+      ...
+    ],
+  ...
+}
+		</code></pre>
+
+ </div>
+</div>
+
+<div id="tg-cli" class="container">
+  <div class="row">
+	  <h2>tg-cli</h2>
+      <p>
+		tg-cli is tg's command line interpreter.
+		For convenience of explanation, 
+		we will use the following words and meanings.
+	  </p>
+		<table class="table">
+			<tr>
+				<th>Word</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>$TGHOME</td>
+				<td>
+					Name of the directory where tg is installed.
+				</td>
+			</tr>
+			<tr>
+				<td>$WORK</td>
+				<td>
+					The working directory name to create 
+					and work with test data and test code with tg.
+				</td>
+			</tr>
+			<tr>
+				<td>schema.json</td>
+				<td>
+					JSON file for the tg schema.
+				</td>
+			</tr>
+			<tr>
+				<td>ex-schema.json</td>
+				<td>
+					JSON file for extension schema.
+				</td>
+			</tr>
+			<tr>
+				<td>api.json</td>
+				<td>
+					JSON file for api-specification.
+				</td>
+			</tr>
+			<tr>
+				<td>databaseName</td>
+				<td>
+					It means database name.
+				</td>
+			</tr>
+			<tr>
+				<td>tableName</td>
+				<td>
+					It means table name.
+				</td>
+			</tr>
+		</table>
+
+	<div id="installation">
+	  <h3>Installation</h3>
+      <p>
+		After downloading tg-cli, extract the compressed file to $TGHOME.
+		Register '$TGHOME/bin' in the PATH environment variable of your system.
+		This completes the installation of tg-cli.
+      </p>
+
+	</div> <!-- installation -->
+
+	<div id="generate">
+	  <h3>Generate test data and test code</h3>
+      <p>
+		The simplest way is first.
+		If JDBC is connectable in your system now and bother creating json files, 
+		you can do something like this to generate only basic test data:
+      </p>
+
+	  <pre><code class="shell">
+$ tg -d driverClassName -l urlForDbms -b databaseName -u userName -p password
+	  </code></pre>
+	  Or
+	  <pre><code class="shell">
+$ tg -m dbmsName -b databaseName -u userName -p password
+	  </code></pre>
+
+	  The number of test rows for each tables are 100 by default.
+	  If you want to change this value to 1000, do the following:
+	  <pre><code class="shell">
+$ tg -m dbmsName -b databaseName -u userName -p password -t 1000
+	  </code></pre>
+	  Or to simply convert a DB schema to a tg schema:
+	  <pre><code class="shell">
+$ tg -m dbmsName -b databaseName -u userName -p password -s path-to-json-file
+	  </code></pre>
+	  
+      <p>
+		tg needs one or more json files, including tg schema and api, 
+		to generate test data and test code.
+		You can list all the json files manually like this:
+	  <pre><code class="shell">
+$ tg json/schema.json json/api.json
+	  </code></pre>
+		Or you can include the rest in main schema like this:
+	  <pre><code class="shell">
+$ tg json/schema.json
+	  </code></pre>
+	  <pre><code class="json">{
+  ...
+  "includeSchemas": [
+    "api.json"
+  ]
+}
+	  </code></pre>
+		If you want to create tg-schema directly from DB-schema 
+		connected with JDBC, use the following.
+	  <pre><code class="shell">
+$ tg --driver=driverClassName --url=urlForDbms --database=databaseName --user=userName --passwd=password json/api.json
+	  </code></pre>
+		If you use mysql as an example,
+	  <pre><code class="shell">
+$ tg --driver=com.mysql.jdbc.Driver --url=jdbc:mysql://localhost:3306/databaseName --database=databaseName --user=userName --passwd=password json/api.json
+	  </code></pre>
+		Or more simply you can use
+	  <pre><code class="shell">
+$ tg -d com.mysql.jdbc.Driver -l jdbc:mysql://localhost:3306/databaseName -b databaseName -u userName -p password json/api.json
+	  </code></pre>
+
+		If your DBMS is in the list of DBMS prepared by tg, you can use it as follows.
+	  <pre><code class="shell">
+$ tg -m dbmsName -b databaseName -u userName -p password api.json
+	  </code></pre>
+		In this case, however, 
+		a driver for each DBMS must exist in your classpath($JAVA_HOME/jre/lib/ext)
+		The location list of available DBMS and downloadable driver is as follows.
+		<table class="table">
+			<tr>
+				<th>DNMS</th>
+				<th>Driver</th>
+			</tr>
+			<tr>
+				<td>mysql</td>
+				<td><a href="https://dev.mysql.com/downloads/connector/j/">mysql driver</a></td>
+			</tr>
+			<tr>
+				<td>mariadb</td>
+				<td><a href="https://mariadb.com/kb/en/library/about-mariadb-connector-j/">mariadb driver</a></td>
+			</tr>
+			<tr>
+				<td>oracle</td>
+				<td><a href="https://www.oracle.com/database/technologies/appdev/jdbc-downloads.html">oracle driver</a></td>
+			</tr>
+			<tr>
+				<td>db2</td>
+				<td><a href="https://www.ibm.com/support/pages/db2-jdbc-driver-versions-and-downloads">db2 driver</a></td>
+			</tr>
+			<tr>
+				<td>mssql</td>
+				<td>
+					<a href="https://docs.microsoft.com/en-us/sql/connect/jdbc/microsoft-jdbc-driver-for-sql-server?view=sql-server-ver15">mssql driver</a>
+				</td>
+			</tr>
+			<tr>
+				<td>postgresql</td>
+				<td><a href="https://jdbc.postgresql.org/">postgresql driver</a></td>
+			</tr>
+			<tr>
+				<td>sqlite</td>
+				<td><a href="https://bitbucket.org/xerial/sqlite-jdbc/downloads/">sqlite driver</a></td>
+			</tr>
+			<tr>
+				<td>h2</td>
+				<td><a href="http://www.h2database.com/html/cheatSheet.html">h2 driver</a></td>
+			</tr>
+		</table>
+
+	  <pre><code class="shell">
+$ tg -m mysql -b databaseName -u userName -p password json/api.json
+	  </code></pre>
+		To make full use of tg's functionality, 
+		you must write an ex-schema. 
+		If you have an ex-schema, specify it as follows:
+	  <pre><code class="shell">
+$ tg json/schema.json json/ex-schema.json json/api.json
+	  </code></pre>
+
+		Or
+	  <pre><code class="shell">
+$ tg -m mysql -b databaseName -u userName -p password json/ex-schema.json json/api.json
+	  </code></pre>
+		The following are all options available to tg-cli.
+		<table class="table">
+			<tr>
+				<th width="25%">short</th>
+				<th width="35%">long</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>-b <i>databaseName</i></td>
+				<td>--database=<i>databaseName</i></td>
+				<td>
+					It means user database name.
+				</td>
+			</tr>
+			<tr>
+				<td>-c <i>categoryName</i></td>
+				<td>--category=<i>categoryName</i></td>
+				<td>
+					The category name to pass to JDBC.
+					It is not required for most dbmss.
+				</td>
+			</tr>
+			<tr>
+				<td>-d <i>driverClassName</i></td>
+				<td>--driver=<i>driverClassName</i></td>
+				<td>
+					Driver class name to be passed to JDBC.
+					This item is required if you are using JDBC.
+				</td>
+			</tr>
+			<tr>
+				<td>-l <i>url</i></td>
+				<td>--url=<i>url</i></td>
+				<td>
+					The url address of the DBMS to be passed to JDBC.
+					Note that in many cases this url should include databaseName.
+					This item is required if you are using JDBC.
+				</td>
+			</tr>
+			<tr>
+				<td>-m <i>dbmsName</i></td>
+				<td>--dbms=<i>dbmsName</i></td>
+				<td>
+					It means the DBMS name.
+					If you use this option, you can omit the -d and -l options.
+				</td>
+			</tr>
+			<tr>
+				<td>-o <i>path</i></td>
+				<td>--outpath=<i>path</i></td>
+				<td>
+					This option specifies the location where test data 
+					and test code are generated.
+					default is the current working directory(".").
+				</td>
+			</tr>
+			<tr>
+				<td>-p <i>password</i></td>
+				<td>--pass=<i>password</i></td>
+				<td>
+					The password to pass to JDBC.
+					This item is required if you are using JDBC.
+				</td>
+			</tr>
+			<tr>
+				<td>-a <i>schemaName</i></td>
+				<td>--schema=<i>schemaName</i></td>
+				<td>
+					The schema name to pass to JDBC.
+					It is not required for most dbmss.
+				</td>
+			</tr>
+			<tr>
+				<td>-u <i>userName</i></td>
+				<td>--user=<i>userName</i></td>
+				<td>
+					The username to pass to JDBC.
+					This item is required if you are using JDBC.
+				</td>
+			</tr>
+			<tr>
+				<td>-s <i>path-to-json-file</i></td>
+				<td>--save=<i>path-to-json-file</i></td>
+				<td>
+					Option to convert DB schema to tg schema by JDBC 
+					and save it to file.
+					The tg schema is created with 'path-to-json-file' 
+					specified with this option.
+					If this option is not specified, 
+					the generated tg schema is used to generate test data 
+					and test code and then NOT saved to disk file.
+					<blockquote>
+						The file at the specified path may or may not exist, 
+						but an error occurs if directory does not exist.
+						Therefore, the user should specify the path that is currently accessible.
+					</blockquote>
+				</td>
+			</tr>
+			<tr>
+				<td>-t <i>numberOfRows</i></td>
+				<td>--testrows=<i>numberOfRows</i></td>
+				<td>
+					This item decides how much test data is generated for each table.
+					This item is valid only when test data is generated by JDBC.
+					This item is optional and has a default value of 100.
+				</td>
+			</tr>
+			<tr>
+				<td>-v</td>
+				<td>--version</td>
+				<td>
+					Print the current version of tg.
+				</td>
+			</tr>
+			<tr>
+				<td>-h</td>
+				<td>--help</td>
+				<td>
+					Print the help messages.
+				</td>
+			</tr>
+		</table>
+
+		If the above command ends normally, 
+		tg-cli creates node.js application source code under '$WORK/databaseName/' 
+		and the structure and meaning of the generated source code are as follows.
+<ul>
+  <li>app.js
+    <p>
+		The starting point for a node.js application.
+	</p>
+  </li>
+  <li>package.json
+    <p>
+		Configuration file for resolving node.js dependencies.
+	</p>
+  </li>
+  <li>mk-mysql.js
+    <p>
+		This script creates a test database for MySQL from 'csv / *. csv'.
+	</p>
+  </li>
+  <li>mk-mongodb.js
+    <p>
+		This script creates a test database for mongoDB from 'csv / *. csv'.
+	</p>
+  </li>
+  <li>csv/
+    <p>
+		This directory contains csv files for all tables 
+		in the schema with test data.
+	</p>
+  </li>
+  <li>openapi/openapi.yaml
+    <p>
+		Open API Specification 3.0 file for API Server.
+	</p>
+  </li>
+  <li>test/
+    <ul>
+      <li>expects/test_conditions.json
+        <p>
+			JSON file that stores all the expected values for the api server test.
+	    </p>
+      </li>
+      <li>find/tableName.js
+        <p>
+			Contains code to test find api in a specific table.
+	    </p>
+      </li>
+      <li>query/tableName.js
+        <p>
+			Contains code to test query api in a specific table.
+	    </p>
+      </li>
+	</ul>
+  </li>
+  <li>mutable-test/tableName.js
+    <p>
+		Contains code to test mutable api in a specific table.
+	</p>
+  </li>
+</ul>
+	</div> <!-- generate -->
+
+	<div id="initialize">
+	  <h3>Initialize</h3>
+      <p>
+		First go to the '$WORK/databaseName/' directory.
+		Then use the following command 
+		to resolve the dependencies of the node.js app:
+      </p>
+	  <pre><code class="shell">
+$ npm install
+	  </code></pre>
+		When this process completes successfully, 
+		you are now ready to use the functions created by tg-cli.
+
+	</div> <!-- initialize -->
+
+	<div id="gen-test-database">
+	  <h3>Burn test database</h3>
+      <p>
+		The test data prepared by tg-cli cannot be directly used in csv format, 
+		and scripts should be written for each DBMS.
+		tg-cli has prepared scripts for MySQL and mongoDB.
+		If your DBMS is not one of these, 
+		you will need to reference mk-mysql.js or mk-mk-mongodb.js 
+		and write your own script.
+		This section assumes that you are using MySQL.
+		Use the following command to burn a test database for MySQL.
+      </p>
+
+	  <pre><code class="shell">
+$ npm run gen-mysql -- testDatabaseName username password
+	  </code></pre>
+		testDatabaseName is the name of the database 
+		where test data will be stored. 
+		The tables must be created in advance by the DB schema 
+		before using this command.
+		<blockquote>
+			<b>CAUTION:</b>
+				The database named by this command is completely initialized 
+				and all previously stored data will be deleted, 
+				so you should be fully aware of this.
+		</blockquote>
+		The following example uses a database named exproj_test, 
+		a username called ray, and 1234567 as the password.
+	  <pre><code class="shell">
+$ npm run gen-mysql -- exproj_test ray 1234567
+	  </code></pre>
+	</div> <!-- gen-test-database -->
+
+	<div id="run-api-server">
+	  <h3>Run api server</h3>
+      <p>
+		To test the api server, 
+		you must run the api server at the IP address specified 
+		in the api specification.
+		At this time, 
+		we must set the test database we created earlier 
+		to be the access target of the api server.
+      </p>
+	</div> <!-- run-api-server -->
+
+	<div id="find-and-query-test">
+	  <h3>find and query api test</h3>
+      <p>
+		Use the following command in $WORK/databaseName/ 
+		to test all find api and query api.
+      </p>
+	  <pre><code class="shell">
+$ npm test
+	  </code></pre>
+		This command will send a request with the test pattern prepared 
+		for find and query apis in the api-specification, 
+		then compare the response data with the expected values 
+		and report the results.
+<br/><br/>
+		To test a specific api rather than the entire api, use following:
+	  <pre><code class="shell">
+$ npm test -- --grep "string in it('...') in test javascript files."
+	  </code></pre>
+		In the above example, the string after --grep 
+		is the string used in it ('...') 
+		for each api test in the javascript file 
+		for find or query api test.
+	  <pre><code class="javascript">
+describe('query test to table customer...', () =&gt; {
+  it('test to /customers/list with column for city', (done) =&gt; {
+    ...
+  }
+  ...
+}
+	  </code></pre>
+
+	</div> <!-- find-and-query-test -->
+
+	<div id="mutable-test">
+	  <h3>mutable api test</h3>
+      <p>
+		mutable test changes the state of the database. 
+		So after a mutable test, 
+		find api test or query api test is unreliable.
+		Therefore, after find test and query test are completed, 
+		run mutable test.
+		If you need a find test or a query test after a mutable test, 
+		re-initialize the test database again using the generated test data 
+		before the find or query test.
+<br/><br/>
+		To test the mutable api, 
+		use the following command in $WORK/databaseName/.
+      </p>
+	  <pre><code class="shell">
+$ npm run mutable-test
+	  </code></pre>
+		This command sends a prepared test pattern to the mutable api url.
+		After verifying that the response is successful, 
+		we will compare the prepared expectation status 
+		with the api server's DB status and report the results.
+	</div> <!-- mutable-test -->
+<br/><br/>
+		If you want to test only a specific api, not the whole api, use the following.
+	  <pre><code class="shell">
+$ npm run mutable-test -- --grep "string in it('...') in test javascript files."
+	  </code></pre>
+  </div>
+</div>
+
+<div id="tg-schema" class="container">
+  <div class="row">
+    <h2>tg schema</h2>
+    <p>
+		The tg schema is a JSON representation of the DB schema. 
+	</p>
+  </div>
+</div>
+
+<div id="table" class="container">
+  <div class="row">
+    <h2>table</h2>
+    <p>
+		Each table is defined within elements 
+		and has the following components:
+	</p>
+		<table class="table">
+			<tr>
+				<th>Attribute</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>table</td>
+				<td>It means table name.
+				</td>
+			</tr>
+			<tr>
+				<td>properties</td>
+				<td>
+					This property can be one or more Column or Object 
+					or Array as an array.
+					For column, see <a href="#column">here</a>.
+				</td>
+			</tr>
+			<tr>
+				<td>primaryKey</td>
+				<td>
+					Specifies the primary key of the table.
+					It has the following properties.
+					<table class="table">
+						<tr>
+							<th>Attribute</th>
+							<th>Mean</th>
+						</tr>
+						<tr>
+							<td>columns</td>
+							<td>
+								List the column names corresponding to the primary key 
+								in this attribute, separated by commas.
+							</td>
+						</tr>
+						<tr>
+							<td>from</td>
+							<td>
+								Where to create primary key column value.
+								If the value of this property is 'dbms', 
+								the DBMS creates a primary key value. 
+								If it is 'user', the user enters the primary key value.
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>uniqueKeys</td>
+				<td>
+					The value of this attribute is an array.
+					For each element of the array, 
+					list the column names corresponding to the unique key, 
+					separated by commas.
+				</td>
+			</tr>
+			<tr>
+				<td>manyToOnes</td>
+				<td>
+					Specify one or more <a href="#many-to-one">many-to-one</a> relationships here.
+				</td>
+			</tr>
+			<tr>
+				<td>oneToManies</td>
+				<td>
+					Specify one or more <a href="#one-to-many">one-to-many</a> relationships here.
+				</td>
+			</tr>
+			<tr>
+				<td>manyToManies</td>
+				<td>
+					Specify one or more <a href="#many-to-many">many-to-many</a> relationships here.
+				</td>
+			</tr>
+			<tr>
+				<td>oneToOnes</td>
+				<td>
+					Specify one or more <a href="#one-to-one">one-to-one</a> relationships here.
+				</td>
+			</tr>
+		</table>
+		<pre><code class="json">{
+  ...
+  "elements": [
+    {
+      "table": "customers",
+      "properties": [
+         { "column": "id", "datatype": "int", "autoIncrement": true },
+         { "column": "customerName", "datatype": "string(255)" },
+         { "column": "salesRepEmployeeNumber", "datatype": "int", "required": false },
+        ...
+      ],
+      "primaryKey": { "columns": "id", "from": "dbms" },
+      "manyToOnes": [
+        { "table": "employees", "join": "salesRepEmployeeNumber = employeeNumber" }
+      ],
+      "oneToManies": [
+        { "table": "orders", "join": "id = customer_id" },
+        { "table": "payments", "join": "id = customer_id" }
+      ],
+    },
+    {
+      "table": "products",
+      "properties": [
+        { "column": "id", "datatype": "int", "autoIncrement": true },
+        ...
+      ],
+      "primaryKey": { "columns": "id", "from": "dbms" },
+      "manyToManies": [
+        { "table": "tags", "joinTable": "product_tags" }
+      ],
+      ...
+    }
+  ],
+  ...
+}
+		</code></pre>
+  </div>
+</div>
+
+<div id="object" class="container">
+  <div class="row">
+    <h2>object</h2>
+    <p>
+		The difference between a table and an object is 
+		the existence of key columns (primary key and unique key) 
+		and relationships.
+		Tables have relationships and primary key and or unique keys 
+		but not in objects.
+		Each object is defined within elements 
+		and has the following components:
+	</p>
+		<table class="table">
+			<tr>
+				<th>Attribute</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>object</td>
+				<td>
+					It means the object name.
+				</td>
+			</tr>
+			<tr>
+				<td>properties</td>
+				<td>
+					Same as the Table property.
+					See <a href="#table">here</a>.
+				</td>
+			</tr>
+		</table>
+		<pre><code class="json">{
+  ...
+  "elements": [
+    {
+      "object": "Image",
+      "properties": [
+        {"column": "url", "datatype": "string"},
+        {"column": "width", "datatype": "int"},
+        {"column": "height", "datatype": "int"}
+      ]
+    },
+    {
+      "table": "AchievementType", 
+      "properties": [
+        {"column": "id", "datatype": "string"},
+        ...
+        {"array": "images", "datatype": "Image"},
+        ...
+        {"object": "application", "datatype": "ApplicationReference"},
+		...
+      ],
+      "primaryKey": {"columns": "id", "from": "dbms"},
+    },
+    ...
+  ],
+  ...
+}
+		</code></pre>
+  </div>
+</div>
+
+<div id="column" class="container">
+  <div class="row">
+    <h2>Column</h2>
+    <p>
+		Each column is defined in the properties of the table 
+		and has the following components.
+	</p>
+	<table class="table">
+		<tr>
+			<th>Attribute</th>
+			<th>Mean</th>
+		</tr>
+		<tr>
+			<td>column</td>
+			<td>
+				It means column name.
+			</td>
+		</tr>
+		<tr>
+			<td>datatype</td>
+			<td>
+				Specifies the datatype of column.
+				The datatypes that can be specified are as follows:
+				<table class="table">
+				<tr>
+					<th>datatype</th>
+					<th>size</th>
+					<th>scale</th>
+				</tr>
+				<tr>
+					<td>string, text, binary</td>
+					<td>Y</td>
+					<td>N</td>
+				</tr>
+				<tr>
+					<td>decimal, number</td>
+					<td>Y</td>
+					<td>Y</td>
+				</tr>
+				<tr>
+					<td>
+					double, float, real, int, int8, int16, int32, int64, tiny, short, 
+					bigint, long, date, timestamp, time
+					</td>
+					<td>N</td>
+					<td>N</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>required</td>
+			<td>
+				Specifies whether this column can have a null value.
+				If the value of this property is true, 
+				it can not have null, and if false, it can have null.
+			</td>
+		</tr>
+		<tr>
+			<td>values</td>
+			<td>
+				If there is a finite set of values that this column can have, 
+				all of those values are specified by this attribute value, 
+				separated by commas.
+			</td>
+		</tr>
+		<tr>
+			<td>min</td>
+			<td>
+				Specifies the minimum value that this column can have.
+			</td>
+		</tr>
+		<tr>
+			<td>max</td>
+			<td>
+				Specifies the maximum value that this column can have.
+			</td>
+		</tr>
+	</table>
+		<pre><code class="json">{
+  ...
+  "elements": [
+    ...
+    {
+      "table": "products",
+      "properties": [
+        { "column": "id", "datatype": "int", "autoIncrement": true },
+        { "column": "name", "datatype": "string(255)" },
+        { "column": "base_price", "datatype": "number(8,3)" },
+        { "column": "orderable_qty", "datatype": "int", "min": 1, "max": 100 },
+        { "column": "comment", "datatype": "text", "required": false },
+        { "column": "state", "datatype": "string(255)", "values": "Bad, Not bad, Good" },
+        ...
+      ],
+      ...
+    }
+  ],
+  ...
+}
+		</code></pre>
+  </div>
+</div>
+
+<div id="many-to-one" class="container">
+  <div class="row">
+    <h2>many-to-one</h2>
+    <p>
+		List the tables of m-to-1 relationships here. 
+		Each manyToOne relationship can have the following properties:
+	</p>
+	<table class="table">
+	  <tr>
+		<th>Attribute</th>
+		<th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>table</td>
+	    <td>
+			In m-to-1 relationships, 
+			this is the table name that corresponds to m.
+			The two tables may be the same table in some cases.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>as</td>
+	    <td>
+			The table name in the manyToOne relationship 
+			might not be suitable for some reason.
+			For example, if there is more than one relationship to the same table 
+			or if they overlap with other column names
+			or it may simply be too long or unfavorable.
+			In this case, you can change the name to something else. 
+			Specify the changed name for this property value.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>join</td>
+	    <td>
+			This property indicates to which column(s) 
+			the two tables that form a relationship are linked.
+			The two column names are connected by the '=' symbol,
+			the left side is the current table column 
+			and the right side is the relative table column.
+			If this connection is made up of more than one column value, 
+			specify each connection with a comma.
+			(Currently, composite keys to join is not supported)
+		</td>
+	  </tr>
+	</table>
+	<pre><code class="json">{
+   "manyToOnes": [
+     { "table": "employees", "as": "sellers", "join": "salesRepEmployeeNumber = employeeNumber" }
+   ],
+}
+	</code></pre>
+  </div>
+</div>
+
+<div id="one-to-many" class="container">
+  <div class="row">
+    <h2>one-to-many</h2>
+    <p>
+		List the tables of 1-to-m relationships here. 
+		Each oneToMany relationship can have the following properties:
+	</p>
+	<table class="table">
+	  <tr>
+		<th>Attribute</th>
+		<th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>table</td>
+	    <td>
+			In 1-to-m relationships, 
+			this is the table name that corresponds to m.
+			The two tables may be the same table in some cases.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>as</td>
+	    <td>
+			Same as the 'as' property of manyToOnes.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>join</td>
+	    <td>
+			Same as the join property of manyToOnes.
+		</td>
+	  </tr>
+	</table>
+	<pre><code class="json">{
+   "oneToManies": [
+     { "table": "employees", "as":"office_employees", "join": "id = office_id" }
+   ],
+}
+	</code></pre>
+  </div>
+</div>
+
+<div id="many-to-many" class="container">
+  <div class="row">
+    <h2>many-to-many</h2>
+    <p>
+		List the tables of m-to-m relationships here. 
+		Each manyToMany relationship can have the following properties:
+	</p>
+	<table class="table">
+	  <tr>
+		<th>Attribute</th>
+		<th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>table</td>
+	    <td>
+			In m-to-m relationships, 
+			this is the table name that corresponds to 'to-m'.
+			The two tables may be the same table in some cases.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>as</td>
+	    <td>
+			Same as the 'as' property of manyToOnes.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>joinTable</td>
+	    <td>
+			Many-to-many relationships require a join table 
+			that joins two tables.
+		</td>
+	  </tr>
+	</table>
+	<pre><code class="json">{
+ "elements": [
+    {
+      "table": "users",
+      "properties": [
+        { "column": "id", "datatype": "int", "autoIncrement": true },
+        ...
+      ],
+      ...
+      "manyToManies": [
+        { "table": "users", "as": "friends", "joinTable": "user_friends" }
+      ]
+    },
+    {
+      "table": "user_friends",
+      "properties": [
+        { "column": "user_id", "datatype": "int" },
+        { "column": "friend_id", "datatype": "int" },
+        ...
+      ],
+      ...
+      "manyToOnes": [
+        { "table": "users", "join": "user_id = id" },
+        { "table": "users", "as": "friends", "join": "friend_id = id" }
+      ]
+    },
+    ...
+  ]
+}
+	</code></pre>
+	<blockquote>
+		When specifying the same table as many-to-many table, 
+		you must specify a unique name using as attribute.
+		The same is true for joinTable, 
+		where the same two tables in the joinTable
+		must be specified in a many-to-one relationship, 
+		so as is needed here as well. 
+		In this case, you must use as in both tables with the same name.
+		(See '"as": "friends"' in above example)
+	</blockquote>
+  </div>
+</div>
+
+<div id="one-to-one" class="container">
+  <div class="row">
+    <h2>one-to-one</h2>
+    <p>
+		List the tables of 1-to-1 relationships here. 
+		Each oneToOne relationship can have the following properties:
+	</p>
+	<table class="table">
+	  <tr>
+		<th>Attribute</th>
+		<th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>table</td>
+	    <td>
+			In 1-to-1 relationships, 
+			this is the table name that corresponds to to-1.
+			The two tables may be the same table in some cases.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>as</td>
+	    <td>
+			Same as the 'as' property of manyToOnes.
+		</td>
+	  </tr>
+	  <tr>
+	    <td>join</td>
+	    <td>
+			Same as the 'join' property of manyToOnes.
+		</td>
+	  </tr>
+	</table>
+	<pre><code class="json">{
+   "oneToOnes": [
+     { "table": "employees_stuff", "join": "id = employee_id" }
+   ],
+}
+	</code></pre>
+  </div>
+</div>
+
+<div id="ex-schema" class="container">
+  <div class="row">
+    <h2>Schema extension</h2>
+    <p>
+		Schema extension is the task of adding information 
+		not provided in DB schema to tg schema.
+		Although this extension information 
+			can be provided together with the tg schema file, 
+		it is strongly recommended to write the schema extension 
+			as a separate json file 
+			in consideration of the possibility of changing the DB schema.
+		If you are an RDB user, 
+			you can extract tg schemas from JDBC, 
+			so you can use tg only by 
+				writing schema extensions and api specifications.
+	</p>
+
+    <h3>includeSchemas</h3>
+	<p>
+		It is not a good idea to store large schemas in a single file.
+		To alleviate this inconvenience, 
+		you can create schemas in one or more JSON files 
+		and then include them in the main schema file. 
+		This attribute is for those cases.
+		Specify an array with this attribute, 
+		and specify an external schema file name for each element of the array.
+		It is assumed that the path to each file is located 
+		where the main schema file is located.
+		If these files are not in the same location as the main schema, 
+		you must specify their relative paths.
+	</p>
+	<pre><code class="json">{
+  ...
+  "includeSchemas": [
+    "products.json",
+    "options/product_options.json",
+    ...
+  ],
+  ...
+}
+	</code></pre>
+
+    <h3>authentications</h3>
+	<p>
+		In some apis, only authorized users are allowed access.
+		For this case, you need to provide information 
+		about the authentication table via this attribute.
+		The value for this attribute can specify 
+		one or more authentication table-related information as an array,
+		and each element can have the following attributes:
+	</p>	
+	<table class="table">
+			<tr>
+				<th>Attribute</th>
+				<th>Mean</th>
+			</tr>
+			<tr>
+				<td>table</td>
+				<td>It means authentication table.
+				</td>
+			</tr>
+			<tr>
+				<td>username</td>
+				<td>
+					Name of the column corresponding to username 
+					in the authentication table.
+				</td>
+			</tr>
+			<tr>
+				<td>password</td>
+				<td>
+					Name of the column corresponding to password 
+					in the authentication table.
+				</td>
+			</tr>
+			<tr>
+				<td>passwordHash</td>
+				<td>
+					Specify which password algorithm 
+					the password is encrypted with.
+					Acceptable values are as follows:
+					<ul>
+					<li>md5</li>
+					<li>sha</li>
+					<li>sha256</li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>role</td>
+				<td>
+					If you do not have an authorization column in the authentication table, 
+					and no authorization table exists, 
+					but you want to give some authorization to the user 
+					authenticated by each authentication table, 
+					specify that permission with this attribute.
+				</td>
+			</tr>
+			<tr>
+				<td>authority</td>
+				<td>
+					This attribute refers to the name of the authority column 
+					in the authenticate table or authority table.
+				</td>
+			</tr>
+			<tr>
+				<td>authorityTable</td>
+				<td>
+					If a authority table exists, 
+					specify the authority table name with this attribute.
+				</td>
+			</tr>
+	</table>
+	<pre><code class="json">{
+  ...
+  "authentications": [
+    {
+      "table": "customers",
+      "username": "email",
+      "password": "password",
+      "passwordHash": "sha256",
+      "role": "ROLE_CUSTOMER"
+    },
+    {
+      "table": "employees",
+      "username": "email",
+      "password": "password",
+      "passwordHash": "sha256",
+      "role": "ROLE_EMPLOYEE"
+    },
+    {
+      "table": "users",
+      "username": "email",
+      "password": "password",
+      "passwordHash": "sha256",
+      "authority": "authority"
+    }
+  ...
+}
+	</code></pre>
+
+    <h3>global testRows</h3>
+    <p>
+		This is an attribute that specifies 
+			how many test data to generate for any table.
+		If you do not specify how many test data to generate for the table, 
+		the number specified here is applied by default.
+	</p>
+	<pre><code class="json">{
+   ...
+   testRows: 100,
+   ...
+   "elements": [
+     { 
+       "table": "users",
+       ...
+     },
+     ...
+   ],
+}
+	</code></pre>
+
+    <h3>table testRows</h3>
+    <p>
+		You can specify with this attribute 
+		how many testdata should be generated for the table.
+	</p>
+	<pre><code class="json">{
+   "elements": [
+     { "alter": "users", "testRows": 100 }
+     },
+     ...
+   ],
+}
+	</code></pre>
+
+    <h3>Relationships</h3>
+    <p>
+		In here, you can add any relationships like many-to-many to table.
+		You can also specify or modify the as (alias) 
+		of an already established relationship.
+		In particular, 
+		when you want to modify as in a relation that already has as specified, 
+		you must specify the existing as in the relation table.
+		
+		For example, to modify the 'as' value from 'users2' to 'friends', following:
+	</p>
+	<pre><code class="json">{
+   "elements": [
+     { "table": "users", 
+       "manyToManies" [
+         { "table": "users", "as": "users2", "joinTable": "user_friends" },
+         ...
+       ]
+     },
+   ],
+}
+	</code></pre>
+
+	<pre><code class="json">{
+     { "alter": "users", 
+       "manyToManies" [
+         { "table": "users2", "as": "friends" },
+         ...
+       ]
+     },
+   ],
+}
+	</code></pre>
+
+    <h3>column extension</h3>
+    <p>
+		Some table column should not have any value, 
+		only a value according to certain rules.
+		Here we will learn how to adjust the value of column.
+	</p>
+	<table class="table">
+	  <tr>
+		<th>Attribute</th>
+		<th>Mean</th>
+	  </tr>
+	  <tr>
+	    <td>pattern</td>
+	    <td>
+			This attribute specifies the pattern of values 
+			that column must have as a Perl regular expression.
+			<pre><code class="json">{
+  { "column": "social_number", "pattern": "\d{6}-\d{7}" },
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>min, max</td>
+	    <td>
+			Specify the minimum or maximum value of this column 
+			as the value of this attribute.
+			<pre><code class="json">{
+  { "column": "price", "min": 100 },
+  { "column": "service_fee", "max": 1000 },
+  { "column": "price", "min": 100, "max": 1000 }
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>Relations</td>
+	    <td>
+			If the value that column should have 
+			has to do with a certain constant value 
+			or related another table column value, 
+			specify it here.
+			Assignable relationships are 'eq', 'ne', 'gt', 'ge', 'lt', and 'le'.
+			<pre><code class="json">{
+  { "column": "price", "attrs": "eq=table.column" },
+  { "column": "shipping_date", "attrs": "gt=orders.order_date" }
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>first_name, last_name, full_name</td>
+	    <td>
+			You assign it to the attrs attribute 
+			when the column value means first_name, last_name, or full_name.
+			<pre><code class="json">{
+  { "column": "firstName", "attrs": "first_name" },
+  { "column": "lastName", "attrs": "last_name" },
+  { "column": "name", "attrs": "full_name" }
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>country, city, state, street, zipcode, address</td>
+	    <td>
+			You assign it to the attrs attribute 
+			when the column value means kind of address.
+			<pre><code class="json">{
+  { "column": "country", "attrs": "country" },
+  { "column": "city", "attrs": "city" },
+  { "column": "address", "attrs": "address" }
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>words, sentence for String</td>
+	    <td>
+			Specify when the column value refers to 
+			any word list or sentence.
+			Since words is an arbitrary list of words, 
+			the whole sentence is meaningless 
+			and is slightly faster than the sentence.
+			<pre><code class="json">{
+  { "column": "comment", "attrs": "words" },
+  { "column": "description", "attrs": "sentence" },
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>words, sentences for Text</td>
+	    <td>
+			If the datatype of column is text type, 
+			words or sentences can be specified.
+			In this case, words or sentences are generated as test data, 
+			otherwise random numbers are generated as test data.
+			<pre><code class="json">{
+  { "column": "comment", "attrs": "words" },
+  { "column": "description", "attrs": "sentence" },
+}
+			</code></pre>
+		</td>
+	  </tr>
+	  <tr>
+	    <td>faker</td>
+	    <td>
+			Use <a href="https://github.com/faker-ruby/faker">Faker</a> package.
+			If you want to use the 'Faker::Address.city' method of the Faker package,
+			use as following:
+			<pre><code class="json">{
+  { "column": "city", "attrs": "faker=Address.city" },
+}
+			</code></pre>
+		</td>
+	  </tr>
+	</table>
+	<pre><code class="json">{
+   "elements": [
+     { "alter": "customers", 
+       "columns" [
+         { "column": "first_name", "attrs": "first_name" },
+         { "column": "last_name", "attrs": "last_name" }
+       ]
+     },
+     { "alter": "orders", 
+       "columns" [
+         { "column": "shipping_date", "attrs": "gt=order_date" },
+         { "column": "address", "attrs": "address" }
+       ]
+     },
+     { "alter": "payments", 
+       "columns" [
+         { "column": "payment_date", "attrs": "gt=orders.order_date" },
+         { "column": "credit_card", "pattern": "\d{4}-\d{4}-\d{4}-\d{4}" }
+       ]
+     }
+   ],
+}
+	</code></pre>
+  </div>
+</div>
+
+<div id="fixed-testdata" class="container">
+  <div class="row">
+    <h2>Custom testdata</h2>
+    <p>
+		Test data should not be created arbitrarily, 
+		such as a specific table, 
+		for example, 
+		a country name table or a challenge name table, 
+		and it may need to be specified with specific values.
+		To specify such testdata, use the 'testdata' attribute.
+		The number of columns specified by columns here 
+		and the value of each value in values must match exactly.
+	</p>
+	
+	<pre><code class="json">{
+   "elements": [
+     { "table": "states", 
+       "testdata" {
+         "columns" "id, name",
+         "values": [
+           [1, "New York"],
+           [2, "California"],
+           [3, "Wachington"]
+         ]
+       }
+     },
+   ],
+}
+	</code></pre>
+	<blockquote>
+	<b>CAUTION:</b>
+		The primary key value of the test data 
+		must be assigned a number from 1 to sequentially increase.
+		If the datatype of the primary key column is string, specify "1", "2", etc.
+	</blockquote>
+  </div>
+</div>
+
+</div> <!-- end of content-->
+
+<div id="rightbar">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- tg-ad-display -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2723563477834102"
+     data-ad-slot="6271003885"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</div> <!-- end of wrapper-->
+
+<div class="footer">
+  <div class="row">
+    <p>
+	  Copyright &copy; 2019 by GGoons.
+	</p>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="/js/tg.js"></script>
 
 </body>
 </html>
+<!--
+-->

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+  <link rel="stylesheet" href="../css/tg.css" />
+<style>
+input[type=text], textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=text].eight {
+  width: 85%;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+</style>
+</head>
+<body>
+
+
+<div class="head">
+  <h1 class="large-font"><b>Testggoon</b></h1>
+  <p style="color:MediumSeaGreen;">Test data and test code generator for api server</p>
+</div>
+
+<div class="wrapper">
+
+<div class="sidebar" id="sidebar">
+ <ul>
+  <li><a href="../en/index.html">English</a></li>
+  <li><a href="../kr/index.html">Korean</a></li>
+ </ul>
+</div>
+
+<div class="content">
+
+<div id="schema" class="container">
+  <div class="row">
+   <h1>Bug report for tg</h1>
+
+   <p>
+	First of all, enter your email address below and click the 'Get' button.
+	Tg will then send a userId to the email address you entered.
+	Check your e-mail inbox and enter the user Id value in the userId field below.
+	<br/><br/>
+	'Stack trace' is required field.
+	If an error occurs, the stack contents will be dumped. Enter them here.
+	<br/><br/>
+	'schema' is optional.
+	If you provide a schema that occured error, 
+	it will be more helpful to find the cause of the error.
+	Leave it blank if you don't want to.
+   </p>
+
+   <form name="getUserIdForm" action="javascript" onSubmit="return getUserId()">
+	<label>Email (required): </label>
+	<input type="text" name="email" id="email" onClick="this.select();" class="eight"
+		placeholder="Please enter your email address" />
+	<input type="submit" value="Get" />
+   </form>
+
+   <form name="bugReportForm" onSubmit="return bugReport()">
+    <label for="userId">userId (required): </label>
+    <input type="text" id="userId" name="userId" placeholder="Your userId.." />
+
+    <label for="dump_content">Stack trace (required)</label>
+    <textarea id="dump_content" name="dump_content" placeholder="Stack trace.." style="height:200px"></textarea>
+
+    <label for="schema">Schema (optional)</label>
+    <textarea id="schema" name="schema" placeholder="tg schema.." style="height:200px"></textarea>
+
+    <input type="submit" value="Submit" />
+   </form>
+  </div>
+</div>
+
+</div> <!-- end of content-->
+
+<div id="rightbar">
+<!--script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2723563477834102"
+     data-ad-slot="6271003885"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script -->
+</div>
+
+</div> <!-- end of wrapper-->
+
+<div class="footer">
+  <div class="row">
+    <p>
+	  Copyright &copy; 2019 by GGoons.
+	</p>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="/js/tg.js"></script>
+<script>
+function bugReport_x() {
+	alert("...");
+	return false;
+}
+
+function bugReport() {
+	var emailAddr = $("#email").val();
+	var userId = $("#userId").val();
+	var dump_content = $("#dump_content").val();
+	var schema = $("#schema").val();
+
+	if (!emailAddr || !isEmail(emailAddr)) {
+		alert("Invalid email address: "+emailAddr);
+		$("#email").focus();
+		return false;
+	}
+	if (!userId || !userId.trim()) {
+		alert("Invalid userId");
+		$("#userId").focus();
+		return false;
+	}
+	if (!dump_content || !dump_content.trim()) {
+		alert("Stack trace is required.");
+		$("#dump_content").focus();
+		return false;
+	}
+
+	var bug = {email: emailAddr, userId: userId, dump_content: dump_content, schema: schema};
+	var bugInfo = JSON.stringify(bug);
+	$.ajax({
+		type: 'POST',
+		url: '/bugs/report',
+		data: bugInfo,
+		success: function(data) { 
+			console.log("response: ", data);
+			alert(data.msg);
+		},
+		contentType: "application/json",
+		dataType: 'json'
+	});
+
+	return false;
+}
+</script>
+
+</body>
+</html>
